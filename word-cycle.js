@@ -49,6 +49,7 @@ function nextWord() {
 	console.log(currentWord);
 	
 	writings = processWritings(currentWord);
+	//console.log(writings);
 	
 	wordFirstMark = 'UNEVALUATED';
 	wordMark = 'UNEVALUATED';
@@ -67,8 +68,8 @@ function nextWord() {
 			
 			currentWord.f = 0;
 			currentWord.b = 0;
-			currentWord.s = nextRepeatedWord++;
-			maxToRepeatWord++;
+			currentWord.s = nextRepeated++;
+			maxToRepeat++;
 			sendCommonWordChanges();
 			
 			currentWord.bb = 2.1;
@@ -119,6 +120,8 @@ function showEverything() {
 
 function showQuestionWord() {
 	progress = 'WORD_QUESTION';
+	$('.evaluation').hide();
+	$('.next').show();
 	
 	$('.card-info').empty();
 	$('.kanji-list').empty();
@@ -144,6 +147,10 @@ function showQuestionWord() {
 
 function showFirstAnswer() {
 	progress = "FIRST_EVALUATION";
+	if(direction === 'FORWARD') {
+		$('.evaluation').show();
+		$('.next').hide();
+	}
 	//$('.transcription').text(currentWord.tsc);
 	$('.transcription').text(writings.kana);
 	playAudio(0);
@@ -164,7 +171,7 @@ function showKanjiList() {
 	kanjiFromWord = [];
 	var n = 0;
 	for(let kanji of writings.allKanji) {
-		
+		//console.log(kanji);	
 		var t = kanji;
 		var learning = false;
 		for(let card of kanjiDb) {
@@ -193,7 +200,10 @@ function showKanjiList() {
 
 function showAnswerWord() {
 	progress = "WORD_EVALUATION";
-	
+	if(direction === 'BACKWARD') {
+		$('.evaluation').show();
+		$('.next').hide();
+	}
 	//insertGifs(writings.allKanji);
 	showKanjiList();
 	$('.example').append(example[currentWord.e]);
@@ -207,11 +217,11 @@ function showAnswerWord() {
 }
 
 function sendCommonWordChanges() {
-	//var message = 'cc?mrw=' + maxToRepeatWord + '&nrw=' + nextRepeatedWord;
+	//var message = 'cc?mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
 	var message = 'sp?type=commonWord';
-	message += '&mrw=' + maxToRepeatWord + '&nrw=' + nextRepeatedWord;
+	message += '&mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
 	//console.log(message);
-	contactServer(message);
+	//contactServer(message);
 }
 
 function sendWordChanges() {
@@ -221,7 +231,7 @@ function sendWordChanges() {
 	message += "&f=" + currentWord.f + "&b=" + currentWord.b;
 	message += "&ff=" + currentWord.ff + "&bb=" + currentWord.bb;
 	//console.log(message);
-	contactServer(message);
+	//contactServer(message);
 }
 
 function saveProgressWord() {
@@ -320,7 +330,7 @@ function saveProgressWord() {
 					wordReturned++;
 				}
 				
-				maxToRepeatWord++;
+				maxToRepeat++;
 				sendCommonWordChanges();
 			} else { //LEARN
 				if(currentWord.f < -1) { //forward
@@ -339,10 +349,10 @@ function saveProgressWord() {
 			if(wordStatus === 'REPEAT') {
 				currentWord.f = 0;
 				currentWord.b = 0;
-				currentWord.s = nextRepeatedWord++;
+				currentWord.s = nextRepeated++;
 				wordRepeated++;
 				
-				maxToRepeatWord++;
+				maxToRepeat++;
 				sendCommonWordChanges();
 				
 				break upgradeOrDegrade;
@@ -357,7 +367,7 @@ function saveProgressWord() {
 				currentWord.s = 1;
 				wordLearned++;
 				
-				maxToRepeatWord--;
+				maxToRepeat--;
 				sendCommonWordChanges();
 			} else { // CONFIRM
 				currentWord.s = 2;

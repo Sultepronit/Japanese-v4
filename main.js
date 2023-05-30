@@ -140,8 +140,8 @@ function refactorDb(crudeDb) {
             f: a[1],
             b: a[2],
             ff: a[3],
-            w: JSON.parse('[' + a[9] + ']'),
-            tsc: JSON.parse('[' + a[10] + ']'),
+			w: JSON.parse(a[9]),
+            tsc: JSON.parse(a[10]),
             tsl: a[11],
             e: a[12]
         };
@@ -167,6 +167,7 @@ let pressedGood = function() {
 		case 'WORD_EVALUATION':
 			$(".word-panel").css("border", "6px solid green");
 			wordMark = "GOOD";
+			saveProgressWord();
 			break;
 		case 'RECOGNITION_EVALUATION':
 			$(".word-panel").css("border", "6px solid green");
@@ -227,12 +228,6 @@ let pressedNext = function() {
 		case "WORD_EVALUATION":
 			saveProgressWord();
 			break;
-		case 'KANJI_QUESTION':
-			showAnswerKanji();
-			break;
-		case 'KANJI_EVALUATION':
-			saveProgressKanji();
-			break;
 		case 'READY_TO_GO':
 			nextCard();
 			break;
@@ -249,6 +244,7 @@ let pressedNext = function() {
 
 let main = function () {
 	console.log("Document is ready!");
+	$('.evaluation').hide();
 
     $('.next').on('click', pressedNext);
     $('.good').on('click', pressedGood);
