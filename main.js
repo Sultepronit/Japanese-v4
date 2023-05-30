@@ -177,17 +177,19 @@ let pressedGood = function() {
 			console.log(progress);
 	}
 }
-/*
-function pressedB() {
+
+let pressedBad = function() {
 	switch(progress) {
 		case 'FIRST_EVALUATION':
 			if(direction !== 'FORWARD') break;
 			$(".word").css("border-bottom", "6px solid red");
 			wordFirstMark = "BAD";
+			showAnswerWord();
 			break;
 		case 'WORD_EVALUATION':
 			$(".word-panel").css("border", "6px solid red");
 			wordMark = "BAD";
+			saveProgressWord();
 			break;
 		case 'RECOGNITION_EVALUATION':
 			$(".word-panel").css("border", "6px solid red");
@@ -198,22 +200,24 @@ function pressedB() {
 	}
 }
 
-function pressedN() {
+let pressedNeutral = function() {
 	console.log(progress);
 	switch(progress) {
 		case "FIRST_EVALUATION":
 			if(direction !== 'FORWARD') break;
 			$(".word").css("border-bottom", "6px solid yellow");
 			wordFirstMark = "NEUTRAL";
+			showAnswerWord();
 			break;
 		case "WORD_EVALUATION":
 			$(".word-panel").css("border", "6px solid yellow");
 			wordMark = "NEUTRAL";
+			saveProgressWord();
 			break;
 		default:
 			console.log(progress);
 	}
-}*/
+}
 
 let pressedNext = function() {
 	console.log(progress);
@@ -225,9 +229,9 @@ let pressedNext = function() {
 			//saveFirstResult();
 			showAnswerWord();
 			break;
-		case "WORD_EVALUATION":
+		/*case "WORD_EVALUATION":
 			saveProgressWord();
-			break;
+			break;*/
 		case 'READY_TO_GO':
 			nextCard();
 			break;
@@ -248,6 +252,8 @@ let main = function () {
 
     $('.next').on('click', pressedNext);
     $('.good').on('click', pressedGood);
+	$('.neutral').on('click', pressedNeutral);
+	$('.bad').on('click', pressedBad);
 };
 	
 $(document).ready(main);

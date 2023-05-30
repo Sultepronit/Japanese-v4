@@ -24,6 +24,10 @@ p {
 	font-size: 1.2em;
 }
 
+.main {
+	margin-bottom: 12em;
+}
+
 .word-panel p {
 	text-align: center;
 }
