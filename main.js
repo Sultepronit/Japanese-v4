@@ -155,8 +155,103 @@ function refactorDb(crudeDb) {
 getWordsDb();
 //getWordsDb('main');
 
+let pressedGood = function() {
+    console.log(progress);
+	switch(progress) {
+		case 'FIRST_EVALUATION':
+			if(direction !== 'FORWARD') break;
+			$(".word").css("border-bottom", "6px solid green");
+			wordFirstMark = "GOOD";
+            showAnswerWord();
+			break;
+		case 'WORD_EVALUATION':
+			$(".word-panel").css("border", "6px solid green");
+			wordMark = "GOOD";
+			break;
+		case 'RECOGNITION_EVALUATION':
+			$(".word-panel").css("border", "6px solid green");
+			wordMark = "GOOD";
+			break;
+		default: 
+			console.log(progress);
+	}
+}
+/*
+function pressedB() {
+	switch(progress) {
+		case 'FIRST_EVALUATION':
+			if(direction !== 'FORWARD') break;
+			$(".word").css("border-bottom", "6px solid red");
+			wordFirstMark = "BAD";
+			break;
+		case 'WORD_EVALUATION':
+			$(".word-panel").css("border", "6px solid red");
+			wordMark = "BAD";
+			break;
+		case 'RECOGNITION_EVALUATION':
+			$(".word-panel").css("border", "6px solid red");
+			wordMark = "BAD";
+			break;
+		default: 
+			console.log(progress);
+	}
+}
+
+function pressedN() {
+	console.log(progress);
+	switch(progress) {
+		case "FIRST_EVALUATION":
+			if(direction !== 'FORWARD') break;
+			$(".word").css("border-bottom", "6px solid yellow");
+			wordFirstMark = "NEUTRAL";
+			break;
+		case "WORD_EVALUATION":
+			$(".word-panel").css("border", "6px solid yellow");
+			wordMark = "NEUTRAL";
+			break;
+		default:
+			console.log(progress);
+	}
+}*/
+
+let pressedNext = function() {
+	console.log(progress);
+    switch(progress) {
+		case "WORD_QUESTION":
+			showFirstAnswer();
+			break;
+		case "FIRST_EVALUATION":
+			//saveFirstResult();
+			showAnswerWord();
+			break;
+		case "WORD_EVALUATION":
+			saveProgressWord();
+			break;
+		case 'KANJI_QUESTION':
+			showAnswerKanji();
+			break;
+		case 'KANJI_EVALUATION':
+			saveProgressKanji();
+			break;
+		case 'READY_TO_GO':
+			nextCard();
+			break;
+		case 'RECOGNITION':
+			showAnswerToRecognize();
+			break;
+		case 'RECOGNITION_EVALUATION':
+			saveRecognitionProgress();
+			break;
+		default: 
+			console.log(progress + '!!!');
+    }
+}
+
 let main = function () {
 	console.log("Document is ready!");
+
+    $('.next').on('click', pressedNext);
+    $('.good').on('click', pressedGood);
 };
 	
 $(document).ready(main);

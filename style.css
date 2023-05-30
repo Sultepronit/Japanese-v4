@@ -161,6 +161,42 @@ p {
 	background-color: #ffe1e1;
 }
 
+footer {
+	/*position: sticky;*/
+	position: fixed;
+	bottom: 0;
+	width: 99%;
+	/*margin-top: 20em;*/
+	padding-top: 1em;
+	padding-bottom: 2em;
+	background-color: white;
+}
+
+footer button {
+	height: 9em;
+	margin: 1%;
+}
+
+.next {
+	width: 96%;
+}
+
+.evaluation button {
+	width: 22%;
+}
+
+.best {
+	background-color: blue;
+}
+
+.good {
+	background-color: green;
+}
+
+.bad {
+	background-color: red;
+}
+
 .gray {
 	color: gray;
 }
@@ -176,3 +212,4 @@ p {
 .yellow {
 	color: yellow;
 }
+

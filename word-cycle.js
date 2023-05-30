@@ -16,8 +16,8 @@ var wordReturned = 0, wordNotConfirmed = 0;
 var wordSuperPlus = 0, wordSuperMinus = 0;
 
 function nextWord() {
-	$('.kanji-panel').hide();
-	$('.word-panel').show();
+	/*$('.kanji-panel').hide();
+	$('.word-panel').show();*/
 	
 	if(randomFromRange(0,1)) {
 		$('.word').css('font-family', '"Noto Serif JP", serif');
@@ -130,13 +130,11 @@ function showQuestionWord() {
 	$(".word").css("border-bottom", "6px solid white");
 	$(".word-panel").css("border", "6px solid white");
 	
-	//$('.card-info').append(currentWordId);
-	var info = '[' + currentWordId + '] ' + currentWord.s + ":\t";
-	info += currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb;
+	var info = currentWordId + ' [' + currentWord.s + "]:\t";
+	info += currentWord.f + " " + currentWord.b + " | " + currentWord.ff;
 	$('.card-info').append(info);
 	
 	if(direction === "FORWARD") {
-		//$('.word').append(writings.allWritings);
 		var rw = randomFromRange(0, writings.mainWritings.length - 1);
 		$('.word').append(writings.mainWritings[rw]);
 	} else { // BACKWARD
@@ -146,13 +144,12 @@ function showQuestionWord() {
 
 function showFirstAnswer() {
 	progress = "FIRST_EVALUATION";
-	
 	//$('.transcription').text(currentWord.tsc);
 	$('.transcription').text(writings.kana);
 	playAudio(0);
 }
 
-function saveFirstResult() {
+/*function saveFirstResult() {
 	if(direction === 'BACKWARD') { 
 		showAnswerWord();
 		return;
@@ -160,7 +157,7 @@ function saveFirstResult() {
 	if(wordFirstMark === 'UNEVALUATED') return;
 	
 	showAnswerWord();
-}
+}*/
 
 var kanjiFromWord = [];
 function showKanjiList() {
@@ -197,7 +194,7 @@ function showKanjiList() {
 function showAnswerWord() {
 	progress = "WORD_EVALUATION";
 	
-	insertGifs(writings.allKanji);
+	//insertGifs(writings.allKanji);
 	showKanjiList();
 	$('.example').append(example[currentWord.e]);
 	$('.word').empty().append(writings.allWritings);
@@ -336,36 +333,6 @@ function saveProgressWord() {
 			
 			break upgradeOrDegrade;
 		}
-		
-		/*
-		//upgrade repeat/confirm
-		if(currentWord.f > 0 && currentWord.b > 0 && currentWord.s > 0) {
-			currentWord.f = 0;
-			currentWord.b = 0;
-			if(currentWord.s < 2) { //confirm
-				currentWord.s = 2;
-				wordConfirmed++;
-			} else { //repeat
-				currentWord.s = nextRepeatedWord++;
-				wordRepeated++;
-				
-				maxToRepeatWord++;
-				sendCommonWordChanges();
-			}
-		}
-		
-		//upgrade learn
-		if(currentWord.ff <= 0) break upgradeOrDegrade;
-		if(currentWord.f > 1 && currentWord.b > 1) {
-			currentWord.s = 1;
-			currentWord.f = 0;
-			currentWord.b = 0;
-			wordLearned++;
-			
-			maxToRepeatWord--;
-			sendCommonWordChanges();
-		}
-		*/
 		
 		//upgrade 
 		if(currentWord.f > 0 && currentWord.b > 0) {
