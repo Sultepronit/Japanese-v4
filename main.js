@@ -16,6 +16,39 @@ let numberToRecognize = 0, numberToLearn = 0, numberToConfirm = 0,
 let progress = '';
 let direction = '';
 
+/*function sendCommonWordChanges() {
+	//let message = 'cc?mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
+	let message = 'sp?type=commonWord';
+	message += '&mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
+	//console.log(message);
+	//contactServer(message);
+}*/
+
+function sendRepeatStatus(sendNext) {
+	toCell(5, 'Q', maxToRepeat);
+	console.log('sendNext? ' + sendNext);
+	if(sendNext) toCell(7, 'Q', nextRepeated);
+}
+
+function sendWordChanges() {
+	console.log('-----------');
+	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff);
+	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
+	if(currentWord.s !== unchangedCard.s) {
+		toCell(currentWordId, 'A', currentWord.s);
+	} 
+	if(currentWord.f !== unchangedCard.f) {
+		toCell(currentWordId, 'B', currentWord.f);
+	} 
+	if(currentWord.b !== unchangedCard.b) {
+		toCell(currentWordId, 'C', currentWord.b);
+	} 
+	if(currentWord.ff !== unchangedCard.ff) {
+		toCell(currentWordId, 'D', currentWord.ff);
+	} 
+	//toCell(currentWordId, 'E', 'here!');
+}
+
 function showStats() {
 	$('.stats').empty();
 	let cn = sessionLength - sessionList.length;
@@ -249,6 +282,7 @@ let pressedNext = function() {
 let main = function () {
 	console.log("Document is ready!");
 	//$('.evaluation').hide();
+	toCell(10,'O', 'go!');
 
     $('.next').on('click', pressedNext);
     $('.good').on('click', pressedGood);

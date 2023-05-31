@@ -20,7 +20,9 @@ var myApp = 'https://script.google.com/macros/s/AKfycbxdjsA65GpotgP1lTQ2hRcbt_Jk
 }
 
 function toCell(num, col, newValue)
-{
+{	
+	num++;
+	console.log(col + num + ': ' + newValue);
 	var action = "toCell";
 	var xhr = new XMLHttpRequest();
 	var body = 'num=' + encodeURIComponent(num) + '&col=' + encodeURIComponent(col) +
@@ -37,7 +39,7 @@ function toCell(num, col, newValue)
 		if (xhr.readyState == 4) {
         	//$("#updateTaskModal").modal("hide");
         	//alert(xhr.response);
-			//console.log('updated!');
+			console.log('updated!');
         }
     };
 	try { xhr.send(body);} catch (err) { }

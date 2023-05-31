@@ -2,7 +2,7 @@
 
 let wordStatus;
 let currentWordId = 0;
-let currentWord;
+let currentWord = {}, unchangedCard = {};
 let writings;
 
 let wordFirstMark = '';
@@ -45,6 +45,7 @@ function nextWord() {
 	//currentWordId = randomFromRange(0, wordsDb.length -1);
 	
 	currentWord = wordsDb[currentWordId];
+	unchangedCard = Object.assign({}, currentWord);
 	//console.log(currentWordId);
 	console.log(currentWord);
 	
@@ -66,7 +67,6 @@ function nextWord() {
 		direction = 'FORWARD';
 		if(currentWord.ff > 2.1) {
 			console.log('Word To PASS! [F]');
-			console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
 			
 			currentWord.f++;
 			
@@ -96,8 +96,6 @@ function showEverything() {
 	progress = 'READY_TO_GO';
 	$('.evaluation').hide();
 	$('.next').show();
-	
-	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
 	
 	sendWordChanges();
 }
@@ -190,27 +188,8 @@ function showAnswerWord() {
 	}
 }
 
-function sendCommonWordChanges() {
-	//let message = 'cc?mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
-	let message = 'sp?type=commonWord';
-	message += '&mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
-	//console.log(message);
-	//contactServer(message);
-}
-
-function sendWordChanges() {
-	//let message = "sw?id=" + currentWordId + "&s=" + currentWord.s;
-	let message = 'sp?type=word';
-	message += '&id=' + currentWordId + '&s=' + currentWord.s;
-	message += "&f=" + currentWord.f + "&b=" + currentWord.b;
-	message += "&ff=" + currentWord.ff;
-	//console.log(message);
-	//contactServer(message);
-}
-
 function saveProgressWord() {
-	if(wordMark === 'UNEVALUATED') return;
-	console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
+	//if(wordMark === 'UNEVALUATED') return;
 	
 	// basic progress
 	if(currentWord.s == 0) {
@@ -305,7 +284,7 @@ function saveProgressWord() {
 				}
 				
 				maxToRepeat++;
-				sendCommonWordChanges();
+				sendRepeatStatus();
 			} else { //LEARN
 				if(currentWord.f < -1) { //forward
 					currentWord.f = -1;
@@ -327,7 +306,7 @@ function saveProgressWord() {
 				wordRepeated++;
 				
 				maxToRepeat++;
-				sendCommonWordChanges();
+				sendRepeatStatus(true);
 				
 				break upgradeOrDegrade;
 			}
@@ -342,15 +321,13 @@ function saveProgressWord() {
 				wordLearned++;
 				
 				maxToRepeat--;
-				sendCommonWordChanges();
+				sendRepeatStatus();
 			} else { // CONFIRM
 				currentWord.s = 2;
 				wordConfirmed++;
 			}
 		}
 	}
-	
-	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
 	
 	sendWordChanges();
 	
