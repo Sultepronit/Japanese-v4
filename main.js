@@ -248,7 +248,7 @@ let pressedNext = function() {
 
 let main = function () {
 	console.log("Document is ready!");
-	$('.evaluation').hide();
+	//$('.evaluation').hide();
 
     $('.next').on('click', pressedNext);
     $('.good').on('click', pressedGood);
