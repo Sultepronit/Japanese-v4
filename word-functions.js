@@ -120,7 +120,7 @@ function insertGifs(kanjiSet) {
 
 function showWordListSingle(wordList) {
 	for(let i = 0; i < wordList.length; i++) {
-		$('.word-list').append(wordList[0].line);
+		$('.word-list').append(wordList[i].line);
 	}
 }
 
