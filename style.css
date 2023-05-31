@@ -24,11 +24,18 @@ p {
 }
 
 .card-info {
-	clear: left;
+	/*clear: left;*/
+	float: left;
 	font-size: 1.2em;
 }
 
+p.sound {
+	float: right;
+	margin-right: 0.6em;
+}
+
 main {
+	clear: both;
 	margin-bottom: 9em;
 }
 

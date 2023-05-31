@@ -163,7 +163,6 @@ function showKanjiList() {
 			}
 		}
 		
-		//let $kanji = $('<span onmousedown="wordListToWord('+n+')">').append(t);
 		let $kanji = $('<span class="k" onmousedown="showKanji('+n+')">');
 		$kanji.append(kanji);
 

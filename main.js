@@ -1,5 +1,7 @@
 "use strict";
 
+let muted = false;
+
 let wordsDb = [];
 let sessionLength = 0, confirmDivider = 0, maxToRepeat = 0, nextRepeated = 0;
 
@@ -280,10 +282,23 @@ let pressedNext = function() {
     }
 }
 
+let toggleSound = function() {
+	console.log('click!');
+	muted = !muted;
+	if(muted) {
+		$('.sound').text('🔇');
+	} else {
+		$('.sound').text('🔊');
+		playAudio(0);
+	}
+}
+
 let main = function () {
 	console.log("Document is ready!");
 	//$('.evaluation').hide();
-	toCell(10,'O', 'go!');
+	//toCell(10,'O', 'go!');
+
+	$('.sound').on('click', toggleSound);
 
     $('.next').on('click', pressedNext);
     $('.good').on('click', pressedGood);
