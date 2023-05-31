@@ -4,6 +4,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic');
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol');
 
+body {
+	font-size: 100;
+}
+
 p {
 	/*margin: 0.1em;*/
 	margin: 0;
@@ -34,7 +38,7 @@ p {
 
 .kanji-list {
 	text-align: center;
-	font-size: 1.7em;
+	font-size: 1.4em;
 }
 
 .kanji-list span {
@@ -43,34 +47,24 @@ p {
 }
 
 .word {
-	/*font-family: 'Noto Serif JP', serif;*/
-	/*font-family: 'Noto Sans JP', sans-serif;*/
-	font-size: 4.2em;
+	font-size: 3.2em;
 	margin: 0;
 	width: fit-content;
 	margin: auto;
 	border-bottom: 6px solid white;
 }
 
-.gifs {
-	display: block;
-	margin: auto;
-}
-
-.gifs img {
-	height: 80px;
-}
 
 .transcription {
-	font-size: 2em;
+	font-size: 1.5em;
 }
 
 .translation {
-	font-size: 2.8em;
+	font-size: 1.8em;
 }
 
 .example {
-	font-size: 2em;
+	font-size: 1.8em;
 	margin: 0.5em;
 }
 
@@ -177,7 +171,7 @@ footer {
 }
 
 footer button {
-	height: 9em;
+	height: 5em;
 	margin: 1%;
 }
 
@@ -186,7 +180,7 @@ footer button {
 }
 
 .evaluation button {
-	width: 30.3%;
+	width: 30vw;
 }
 
 .good {

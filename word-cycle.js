@@ -149,7 +149,7 @@ function showKanjiList() {
 		for(let card of kanjiDb) {
 			if(card.k == kanji) {
 				learning = true;
-				t += ' - ' + card.n + ' <i>' + jooyoo[card.j][4] + '</i>';
+				t += ' ' + card.n + ' <i>' + jooyoo[card.j][4] + '</i>';
 				break;
 			}
 		}
@@ -157,7 +157,7 @@ function showKanjiList() {
 		if(!learning) {
 			for(let card of jooyoo) {
 				if(card[0] == kanji) {
-					t += ' - <i>' + card[4] + '</i>';
+					t += ' <i>' + card[4] + '</i>';
 					break;
 				}
 			}

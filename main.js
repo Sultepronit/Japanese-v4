@@ -62,7 +62,7 @@ function showStats() {
 	re += ' | <span class="green">wc-' + numberToConfirm + ': '; 
 	re += wordConfirmPlus + '-' + wordConfirmMinus;
 	re += '<b> ' + wordConfirmed + '-' + wordNotConfirmed + '</b></span>';
-	re += ' | wr-' + numberToRepeat + '/' + numberWithProblem + ': ';
+	re += ' <br> wr-' + numberToRepeat + '/' + numberWithProblem + ': ';
 	re += wordRepeatPlus + '<sup>' + wordRepeatPlusAuto + '</sup>';
 	re += '-' + wordRepeatMinus + '<b> ' + wordRepeated;
 	re += '<sup>' + wordRepeatedAuto + '</sup>-' + wordReturned + '</b>';
