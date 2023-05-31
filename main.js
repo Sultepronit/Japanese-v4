@@ -73,9 +73,10 @@ function showStats() {
 }
 
 function clearList() {
-	$('.single').empty();
+	/*$('.single').empty();
 	$('.right-half').empty();
-	$('.left-half').empty();
+	$('.left-half').empty();*/
+	$('.word-list').empty();
 }
 
 function nextCard() {

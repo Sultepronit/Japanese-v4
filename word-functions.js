@@ -118,8 +118,16 @@ function insertGifs(kanjiSet) {
 	});
 }
 
-function wordListToWord(i) {
-	$(".control").text(kanjiFromWord[i]);
+function showWordListSingle(wordList) {
+	for(let i = 0; i < wordList.length; i++) {
+		$('.word-list').append(wordList[0].line);
+	}
+}
+
+function showKanji(i) {
+	//$(".control").text(kanjiFromWord[i]);
+	console.log(kanjiFromWord[i]);
+	$('#k' + i).show();
 	
 	clearList();
 	var wl = findKanjiInWords(kanjiFromWord[i]);
@@ -130,5 +138,5 @@ function wordListToWord(i) {
 		}
 	}
 
-	if(wl.length) showWordList(wl);
+	if(wl.length) showWordListSingle(wl);
 }

@@ -144,7 +144,7 @@ function showKanjiList() {
 	let n = 0;
 	for(let kanji of writings.allKanji) {
 		//console.log(kanji);	
-		let t = kanji;
+		let t = '';
 		let learning = false;
 		for(let card of kanjiDb) {
 			if(card.k == kanji) {
@@ -163,7 +163,13 @@ function showKanjiList() {
 			}
 		}
 		
-		let $kanji = $('<span onmousedown="wordListToWord('+n+')">').append(t);
+		//let $kanji = $('<span onmousedown="wordListToWord('+n+')">').append(t);
+		let $kanji = $('<span class="k" onmousedown="showKanji('+n+')">');
+		$kanji.append(kanji);
+
+		let $about = $('<span id="k'+n+'">').append(t);
+		$about.hide();
+		$kanji.append($about);
 		$('.kanji-list').append($kanji);
 		kanjiFromWord.push(kanji);
 		n++;
