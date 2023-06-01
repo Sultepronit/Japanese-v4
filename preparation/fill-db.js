@@ -19,6 +19,11 @@ for(let i = 0; i < wordsDb.length; i++) {
 for(let i = 0; i < wordsDb.length; i++) {
     //if(i > 99) break;
     //document.write( JSON.stringify(wordsDb[i].w) );
-    document.write( JSON.stringify(wordsDb[i].tsc) );
+    //document.write( JSON.stringify(wordsDb[i].tsc) );
+    let json = JSON.stringify(wordsDb[i].w);
+    let re = json.replace('["','');
+    re = re.replace('"]','');
+    re = re.replace(/","/g,', ');
+    document.write( re );
     document.write('<br>');
 }
