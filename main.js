@@ -164,8 +164,12 @@ function refactorDb(crudeDb) {
     maxToRepeat = crudeDb[5][16];
     nextRepeated = crudeDb[7][16];
 
+	let i = 0;
     for(let a of crudeDb) {
+		i++;
         //console.log(a);
+		if(isNaN(a[0])) break;
+		//console.log(i + ': ' + a[0]);
         let card = {
             s: a[0],
             f: a[1],
@@ -181,7 +185,7 @@ function refactorDb(crudeDb) {
         //console.log(card);
         wordsDb.push(card);
     }
-	console.log(wordsDb);
+	//console.log(wordsDb);
     console.log(wordsDb.length);
     prepareSessionLists();
 }

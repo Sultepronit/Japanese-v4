@@ -24,7 +24,7 @@ p {
 }
 
 .card-info {
-	/*clear: left;*/
+	clear: left;
 	float: left;
 	font-size: 1.2em;
 }
