@@ -171,14 +171,17 @@ function refactorDb(crudeDb) {
             f: a[1],
             b: a[2],
             ff: a[3],
-			w: JSON.parse(a[9]),
-            tsc: JSON.parse(a[10]),
+			//w: JSON.parse(a[9]),
+			w: a[9].split(', '),
+            //tsc: JSON.parse(a[10]),
+			tsc: a[10].split(', '),
             tsl: a[11],
             e: a[12]
         };
         //console.log(card);
         wordsDb.push(card);
     }
+	console.log(wordsDb);
     console.log(wordsDb.length);
     prepareSessionLists();
 }
