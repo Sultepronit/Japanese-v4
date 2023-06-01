@@ -18,14 +18,6 @@ let numberToRecognize = 0, numberToLearn = 0, numberToConfirm = 0,
 let progress = '';
 let direction = '';
 
-/*function sendCommonWordChanges() {
-	//let message = 'cc?mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
-	let message = 'sp?type=commonWord';
-	message += '&mrw=' + maxToRepeat + '&nrw=' + nextRepeated;
-	//console.log(message);
-	//contactServer(message);
-}*/
-
 function sendRepeatStatus(sendNext) {
 	toCell(5, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
@@ -33,9 +25,13 @@ function sendRepeatStatus(sendNext) {
 }
 
 function sendWordChanges() {
-	console.log('-----------');
+	//console.log('-----------');
 	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff);
 	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff);
+	
+	/*console.log('not saved!');
+	return;*/
+
 	if(currentWord.s !== unchangedCard.s) {
 		toCell(currentWordId, 'A', currentWord.s);
 	} 
@@ -75,9 +71,6 @@ function showStats() {
 }
 
 function clearList() {
-	/*$('.single').empty();
-	$('.right-half').empty();
-	$('.left-half').empty();*/
 	$('.word-list').empty();
 }
 
@@ -90,16 +83,18 @@ function nextCard() {
 		$('.word').empty().append('Happy End!');
 		return;
 	}
-	let cardStatus = deleteRandomFromArray(sessionList);
-	console.log(cardStatus);
+	//let cardStatus = deleteRandomFromArray(sessionList);
+	wordStatus = deleteRandomFromArray(sessionList);
+	console.log(wordStatus);
 	//console.log(sessionList);
 	
-	if(cardStatus === 'RECOGNIZE') {
+	if(wordStatus === 'RECOGNIZE') {
 		nextRecognition();
 		return;
 	}
-	wordStatus = cardStatus;
+	//wordStatus = cardStatus;
 	nextWord();
+	//nextRecognition();
 }
 
 function prepareSessionLists() {	
@@ -141,8 +136,8 @@ function prepareSessionLists() {
     function fillTheList(n, item) {
 		for(let i = 0; i < n; i++) sessionList.push(item);
 	}
-	/*numberToRecognize = Math.round(recognizeList.length / 5);
-	fillTheList(numberToRecognize, 'RECOGNIZE');*/
+	numberToRecognize = Math.round(recognizeList.length / 5);
+	fillTheList(numberToRecognize, 'RECOGNIZE');
 	
 	numberToLearn = learnList.length - 2;
 	fillTheList(numberToLearn, "LEARN");
@@ -206,8 +201,9 @@ let pressedGood = function() {
 			saveProgressWord();
 			break;
 		case 'RECOGNITION_EVALUATION':
-			$(".word-panel").css("border", "6px solid green");
+			//$(".word-panel").css("border", "6px solid green");
 			wordMark = "GOOD";
+			saveRecognitionProgress();
 			break;
 		default: 
 			console.log(progress);
@@ -228,8 +224,9 @@ let pressedBad = function() {
 			saveProgressWord();
 			break;
 		case 'RECOGNITION_EVALUATION':
-			$(".word-panel").css("border", "6px solid red");
+			//$(".word-panel").css("border", "6px solid red");
 			wordMark = "BAD";
+			saveRecognitionProgress();
 			break;
 		default: 
 			console.log(progress);
@@ -274,9 +271,9 @@ let pressedNext = function() {
 		case 'RECOGNITION':
 			showAnswerToRecognize();
 			break;
-		case 'RECOGNITION_EVALUATION':
+		/*case 'RECOGNITION_EVALUATION':
 			saveRecognitionProgress();
-			break;
+			break;*/
 		default: 
 			console.log(progress + '!!!');
     }

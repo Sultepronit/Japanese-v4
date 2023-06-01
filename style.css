@@ -51,6 +51,7 @@ main {
 span.k {
 	margin-left: 0.5em;
 	margin-right: 0.5em;
+	color: blue;
 }
 
 .word {
@@ -67,11 +68,11 @@ span.k {
 }
 
 .translation {
-	font-size: 1.8em;
+	font-size: 1.7em;
 }
 
 .example {
-	font-size: 1.8em;
+	font-size: 1.6em;
 	margin: 0.5em;
 }
 
