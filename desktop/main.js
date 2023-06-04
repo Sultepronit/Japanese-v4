@@ -13,8 +13,6 @@ let numberToRecognize = 0, numberWithProblem = 0, numberToRepeat = 0;
 let progress = '';
 let direction = '';
 
-//let sessionLength = sessionList.length;
-
 function sendRepeatStatus(sendNext) {
 	//toCell(12, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
@@ -27,6 +25,11 @@ function sendWordChanges() {
 	
 	/*console.log('not saved!');
 	return;*/
+
+	if(currentWord.s < 0) {
+		currentWord.s = 0;
+		toCell(currentWordId, 'A', 0);
+	}
 
 	if(currentWord.s !== unchangedCard.s) {
 		toCell(currentWordId, 'E', currentWord.s);
@@ -43,37 +46,6 @@ function sendWordChanges() {
 	if(currentWord.bb !== unchangedCard.bb) {
 		toCell(currentWordId, 'I', currentWord.bb);
 	} 
-}
-
-function showStats() {
-	$('.stats').empty();
-	let re = '<b>';
-	let cn = sessionLength - sessionList.length;
-	let pc = Math.round(cn / sessionLength * 100);
-	re += cn + '/' + sessionLength + ': ' + pc + '%</b>';
-	
-	re += ' | <span class="green">wl-' + numberToLearn + ': ';
-	re += wordLearnPlus + '-' + wordLearnMinus;
-	re += '<b> ' + wordLearned + '</b></span>';
-	re += ' | <span class="green">wc-' + numberToConfirm + ': '; 
-	re += wordConfirmPlus + '-' + wordConfirmMinus;
-	re += '<b> ' + wordConfirmed + '-' + wordNotConfirmed + '</b></span>';
-	re += ' | wr-' + numberToRepeat + '/' + numberWithProblem + ': ';
-	re += wordRepeatPlus + '<sup>' + wordRepeatPlusAuto + '</sup>';
-	re += '-' + wordRepeatMinus + '<b> ' + wordRepeated;
-	re += '<sup>' + wordRepeatedAuto + '</sup>-' + wordReturned + '</b>';
-	re+= ' | <span class="blue">[' + numberToRecognize + '] <b>';
-	re += wordSuperPlus + '-' + wordSuperMinus + '</b></span>';
-	
-	re += ' || <span class="green">kl-' + numberToLearnKanji + ': ';
-	re += kanjiLearnPlus + '-' + kanjiLearnMinus;
-	re += '<b> ' + kanjiLearned + '</b></span>';
-	re += ' | kr: ' + kanjiRepeatPlus + '<sup>' + kanjiRepeatPlusAuto + '</sup>';
-	re += '-' + kanjiRepeatMinus + '<b> ' + kanjiRepeated;
-	re += '<sup>' + kanjiRepeatedAuto + '</sup>-' + kanjiReturned + '</b>';
-	re += ' | <span class="blue"><b>' + kanjiSuperPlus + '-' + kanjiSuperMinus + '</b></span>';
-	
-	$('.stats').append(re);
 }
 
 function pressedG() {
@@ -227,8 +199,33 @@ function clearList() {
 	$('.left-half').empty();
 }
 
+function showStats() {
+	$('.stats').empty();
+	let re = '<b>';
+	let cn = sessionLength - sessionList.length;
+	let pc = Math.round(cn / sessionLength * 100);
+	re += cn + '/' + sessionLength + ': ' + pc + '%</b>';
+	
+	re += ' | wr-' + numberToRepeat + '/' + numberWithProblem + ': ';
+	re += wordRepeatPlus + '<sup>' + wordRepeatPlusAuto + '</sup>';
+	re += '-' + wordRepeatMinus + '<b> ' + wordRepeated;
+	re += '<sup>' + wordRepeatedAuto + '</sup>-' + wordReturned + '</b>';
+	re+= ' | <span class="blue">[' + numberToRecognize + '] <b>';
+	re += wordSuperPlus + '-' + wordSuperMinus + '</b></span>';
+	/*
+	re += ' || <span class="green">kl-' + numberToLearnKanji + ': ';
+	re += kanjiLearnPlus + '-' + kanjiLearnMinus;
+	re += '<b> ' + kanjiLearned + '</b></span>';
+	re += ' | kr: ' + kanjiRepeatPlus + '<sup>' + kanjiRepeatPlusAuto + '</sup>';
+	re += '-' + kanjiRepeatMinus + '<b> ' + kanjiRepeated;
+	re += '<sup>' + kanjiRepeatedAuto + '</sup>-' + kanjiReturned + '</b>';
+	re += ' | <span class="blue"><b>' + kanjiSuperPlus + '-' + kanjiSuperMinus + '</b></span>';
+	*/
+	$('.stats').append(re);
+}
+
 function nextCard() {
-	//showStats();
+	showStats();
 
 	clearList();
 	

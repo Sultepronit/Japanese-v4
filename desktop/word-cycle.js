@@ -251,9 +251,11 @@ function saveProgressWord() {
 	upgradeOrDegrade: {
 		//degrade
 		if(currentWord.f < -1 || currentWord.b < -1) {
-			currentWord.s = 0;
+			currentWord.s = -1;
 			currentWord.f = 0;
 			currentWord.b = 0;
+			currentWord.ff = 0;
+			currentWord.bb = 0;
 			wordReturned++;
 			
 			//maxToRepeat++;
