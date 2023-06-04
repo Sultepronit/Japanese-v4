@@ -15,14 +15,34 @@ let direction = '';
 
 //let sessionLength = sessionList.length;
 
-function contactServer(mes) {
-	let src = "http://localhost:5050/" + mes;
-	$.getScript(src, function(){
-		//console.log("Success!");
-	}).fail(function () {
-		alert("No connection!");
-		//console.log("No connection!");
-	});
+function sendRepeatStatus(sendNext) {
+	//toCell(12, 'Q', maxToRepeat);
+	console.log('sendNext? ' + sendNext);
+	if(sendNext) toCell(14, 'Q', nextRepeated);
+}
+
+function sendWordChanges() {
+	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff + " " + unchangedCard.bb);
+	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
+	
+	/*console.log('not saved!');
+	return;*/
+
+	if(currentWord.s !== unchangedCard.s) {
+		toCell(currentWordId, 'E', currentWord.s);
+	} 
+	if(currentWord.f !== unchangedCard.f) {
+		toCell(currentWordId, 'F', currentWord.f);
+	} 
+	if(currentWord.b !== unchangedCard.b) {
+		toCell(currentWordId, 'G', currentWord.b);
+	} 
+	if(currentWord.ff !== unchangedCard.ff) {
+		toCell(currentWordId, 'H', currentWord.ff);
+	} 
+	if(currentWord.bb !== unchangedCard.bb) {
+		toCell(currentWordId, 'I', currentWord.bb);
+	} 
 }
 
 function showStats() {

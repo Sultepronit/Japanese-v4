@@ -1,19 +1,19 @@
 "use strict";
 
-var wordStatus;
-var currentWordId = 0;
-var currentWord;
-var writings;
+let wordStatus;
+let currentWordId = 0;
+let currentWord;
+let writings;
 
-var wordFirstMark = '';
-var wordMark = '';
+let wordFirstMark = '';
+let wordMark = '';
 
-var wordLearnPlus = 0,  wordLearnMinus = 0, wordLearned = 0;
-var wordConfirmPlus = 0, wordConfirmMinus = 0, wordConfirmed = 0;
-var wordRepeatPlus = 0, wordRepeatMinus = 0, wordRepeated = 0;
-var wordRepeatPlusAuto = 0, wordRepeatedAuto = 0;
-var wordReturned = 0, wordNotConfirmed = 0;
-var wordSuperPlus = 0, wordSuperMinus = 0;
+let wordRepeatPlus = 0, wordRepeatMinus = 0, wordRepeated = 0;
+let wordRepeatPlusAuto = 0, wordRepeatedAuto = 0;
+let wordReturned = 0;
+let wordSuperPlus = 0, wordSuperMinus = 0;
+
+let unchangedCard = {};
 
 function nextWord() {
 	$('.kanji-panel').hide();
@@ -26,13 +26,6 @@ function nextWord() {
 	}
 	
 	switch(wordStatus) {
-		case 'LEARN':
-			currentWordId = deleteRandomFromArray(learnList);
-			//console.log(learnList);
-			break;
-		case 'CONFIRM':
-			currentWordId = deleteRandomFromArray(confirmList);
-			break;
 		case 'PROBLEM':
 			currentWordId = deleteRandomFromArray(problemList);
 			break;
@@ -49,21 +42,14 @@ function nextWord() {
 	console.log(currentWord);
 	
 	writings = processWritings(currentWord);
-	
-	wordFirstMark = 'UNEVALUATED';
-	wordMark = 'UNEVALUATED';
-	
-	/*direction = 'FORWARD';
-	direction = 'BACKWARD';
-	var of2 = randomFromRange(0,1);*/
-	//direction = of2 ? 'FORWARD' : 'BACKWARD';
-	//direction = (currentWord.f > currentWord.b) ? 'BACKWARD' : 'FORWARD';
-	
+
+	unchangedCard = Object.assign({}, currentWord);
+
 	if(currentWord.f > currentWord.b) {
 		direction = 'BACKWARD';
 		if(currentWord.bb > 2.1 && currentWord.s > 2) {
 			console.log('Word To PASS! [B]');
-			console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
+			//console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 			
 			currentWord.f = 0;
 			currentWord.b = 0;
@@ -82,7 +68,7 @@ function nextWord() {
 		direction = 'FORWARD';
 		if(currentWord.ff > 2.1) {
 			console.log('Word To PASS! [F]');
-			console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
+			//console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 			
 			currentWord.f++;
 			
@@ -94,9 +80,10 @@ function nextWord() {
 			return;
 		}
 	}
-	
-	//if(currentWord.b > 1) direction = 'FORWARD';
-	if(currentWord.ff <= 0 && currentWord.s < 2) direction = 'FORWARD';
+	//direction = 'BACKWARD';
+
+	wordFirstMark = 'UNEVALUATED';
+	wordMark = 'UNEVALUATED';
 	
 	showQuestionWord();
 }
@@ -111,8 +98,6 @@ function showEverything() {
 	$(".word-panel").css("border", "6px solid black");
 	
 	progress = 'READY_TO_GO';
-	
-	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 	
 	sendWordChanges();
 }
@@ -131,13 +116,13 @@ function showQuestionWord() {
 	$(".word-panel").css("border", "6px solid white");
 	
 	//$('.card-info').append(currentWordId);
-	var info = '[' + currentWordId + '] ' + currentWord.s + ":\t";
+	let info = '[' + currentWordId + '] ' + currentWord.s + ":\t";
 	info += currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb;
 	$('.card-info').append(info);
 	
 	if(direction === "FORWARD") {
 		//$('.word').append(writings.allWritings);
-		var rw = randomFromRange(0, writings.mainWritings.length - 1);
+		let rw = randomFromRange(0, writings.mainWritings.length - 1);
 		$('.word').append(writings.mainWritings[rw]);
 	} else { // BACKWARD
 		$('.translation').append(currentWord.tsl);
@@ -162,14 +147,14 @@ function saveFirstResult() {
 	showAnswerWord();
 }
 
-var kanjiFromWord = [];
+let kanjiFromWord = [];
 function showKanjiList() {
 	kanjiFromWord = [];
-	var n = 0;
+	let n = 0;
 	for(let kanji of writings.allKanji) {
 		
-		var t = kanji;
-		var learning = false;
+		let t = kanji;
+		let learning = false;
 		for(let card of kanjiDb) {
 			if(card.k == kanji) {
 				learning = true;
@@ -187,7 +172,7 @@ function showKanjiList() {
 			}
 		}
 		
-		var $kanji = $('<span onmousedown="wordListToWord('+n+')">').append(t);
+		let $kanji = $('<span onmousedown="wordListToWord('+n+')">').append(t);
 		$('.kanji-list').append($kanji);
 		kanjiFromWord.push(kanji);
 		n++;
@@ -209,62 +194,17 @@ function showAnswerWord() {
 	}
 }
 
-function sendCommonWordChanges() {
-	//var message = 'cc?mrw=' + maxToRepeatWord + '&nrw=' + nextRepeatedWord;
-	var message = 'sp?type=commonWord';
-	message += '&mrw=' + maxToRepeatWord + '&nrw=' + nextRepeatedWord;
-	//console.log(message);
-	contactServer(message);
-}
-
-function sendWordChanges() {
-	//var message = "sw?id=" + currentWordId + "&s=" + currentWord.s;
-	var message = 'sp?type=word';
-	message += '&id=' + currentWordId + '&s=' + currentWord.s;
-	message += "&f=" + currentWord.f + "&b=" + currentWord.b;
-	message += "&ff=" + currentWord.ff + "&bb=" + currentWord.bb;
-	//console.log(message);
-	contactServer(message);
-}
-
 function saveProgressWord() {
 	if(wordMark === 'UNEVALUATED') return;
-	console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 	
 	// basic progress
-	if(currentWord.s == 0) {
-		if(wordMark === 'NEUTRAL') wordMark = 'BAD';
-		if(wordMark === 'BAD') {
-			sessionList.push('LEARN');
-			learnList.push(currentWordId);
-			console.log('I\'m back!');
-		}
-	}
-	var change = 0;
+	let change = 0;
 	if(wordMark === 'GOOD' || wordMark === 'BEST') {
 		change++;
-		switch(wordStatus) {
-			case 'LEARN':
-				wordLearnPlus++;
-				break;
-			case 'CONFIRM':
-				wordConfirmPlus++;
-				break;
-			default:
-				wordRepeatPlus++;
-		}
+		wordRepeatPlus++;
 	} else if(wordMark === 'BAD') {
 		change--;
-		switch(wordStatus) {
-			case 'LEARN':
-				wordLearnMinus++;
-				break;
-			case 'CONFIRM':
-				wordConfirmMinus++;
-				break;
-			default:
-				wordRepeatMinus++;
-		}
+		wordRepeatMinus++;
 	}
 
 	if(direction === 'FORWARD') {
@@ -293,7 +233,6 @@ function saveProgressWord() {
 			currentWord.ff = 0;
 			wordSuperMinus--;
 		}
-		if(currentWord.ff > 1 && currentWord.s < 2) currentWord.ff = 1;
 	} else { // BACKWARD
 		if(wordMark === 'BEST') {
 			currentWord.bb++;
@@ -307,69 +246,34 @@ function saveProgressWord() {
 			currentWord.bb = 0;
 			wordSuperMinus--;
 		}
-		if(currentWord.bb > 1 && currentWord.s < 2) currentWord.bb = 1;
 	}
 	
 	upgradeOrDegrade: {
 		//degrade
 		if(currentWord.f < -1 || currentWord.b < -1) {
-			if(wordStatus !== 'LEARN') { 
-				currentWord.s = 0;
-				currentWord.f = 0;
-				currentWord.b = 0;
-				if(wordStatus === 'CONFIRM') {
-					wordNotConfirmed++;
-				} else { //REPEAT
-					wordReturned++;
-				}
-				
-				maxToRepeatWord++;
-				sendCommonWordChanges();
-			} else { //LEARN
-				if(currentWord.f < -1) { //forward
-					currentWord.f = -1;
-				} else { //backward
-					currentWord.f = 0;
-					currentWord.b = 0;
-				}
-			}
+			currentWord.s = 0;
+			currentWord.f = 0;
+			currentWord.b = 0;
+			wordReturned++;
 			
+			//maxToRepeat++;
+			//sendRepeatStatus();
 			break upgradeOrDegrade;
 		}
 		
 		//upgrade 
 		if(currentWord.f > 0 && currentWord.b > 0) {
-			if(wordStatus === 'REPEAT') {
-				currentWord.f = 0;
-				currentWord.b = 0;
-				currentWord.s = nextRepeatedWord++;
-				wordRepeated++;
-				
-				maxToRepeatWord++;
-				sendCommonWordChanges();
-				
-				break upgradeOrDegrade;
-			}
-			
-			if(currentWord.ff <= 0) break upgradeOrDegrade;
-			
 			currentWord.f = 0;
 			currentWord.b = 0;
+			currentWord.s = nextRepeated++;
+			wordRepeated++;
 			
-			if(wordStatus === 'LEARN') {
-				currentWord.s = 1;
-				wordLearned++;
-				
-				maxToRepeatWord--;
-				sendCommonWordChanges();
-			} else { // CONFIRM
-				currentWord.s = 2;
-				wordConfirmed++;
-			}
+			//maxToRepeat++;
+			sendRepeatStatus(true);
+			
+			break upgradeOrDegrade;
 		}
 	}
-	
-	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 	
 	sendWordChanges();
 	

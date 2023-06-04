@@ -32,7 +32,7 @@ function prepareSessionLists() {
     function fillTheList(n, item) {
 		for(let i = 0; i < n; i++) sessionList.push(item);
 	}
-	numberToRecognize = Math.round(recognizeList.length / 5);
+	numberToRecognize = Math.round(recognizeList.length / 2);
 	fillTheList(numberToRecognize, 'RECOGNIZE');
 	
 	numberWithProblem = Math.round(problemList.length / 3);
@@ -47,10 +47,11 @@ function prepareSessionLists() {
 }
 
 function refactorDb(crudeDb) {
-    sessionLength = crudeDb[1][16];
-    maxToRepeat = crudeDb[5][16];
-    nextRepeated = crudeDb[7][16];
+    sessionLength = crudeDb[10][16];
+    maxToRepeat = crudeDb[12][16];
+    nextRepeated = crudeDb[14][16];
 	let ignored = crudeDb[5][16];
+	console.log(maxToRepeat + ' / ' + nextRepeated);
 
 	//let i = 0;
     for(let a of crudeDb) {
