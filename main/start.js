@@ -1,3 +1,5 @@
+'use strict';
+
 function prepareSessionLists() {	
 	for(let index = 0; index < wordsDb.length; index++) {
 		if(wordsDb[index].s > maxToRepeat) {
@@ -65,9 +67,9 @@ function refactorDb(crudeDb) {
     maxToRepeat = crudeDb[5][16];
     nextRepeated = crudeDb[7][16];
 
-	let i = 0;
+	//let i = 0;
     for(let a of crudeDb) {
-		i++;
+		//i++;
         //console.log(a);
 		if(isNaN(a[0])) break;
 		//console.log(i + ': ' + a[0]);
@@ -76,9 +78,7 @@ function refactorDb(crudeDb) {
             f: a[1],
             b: a[2],
             ff: a[3],
-			//w: JSON.parse(a[9]),
 			w: a[9].split(', '),
-            //tsc: JSON.parse(a[10]),
 			tsc: a[10].split(', '),
             tsl: a[11],
             e: a[12]

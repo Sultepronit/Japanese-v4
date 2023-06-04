@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function processWritings(card) {
 	//console.log(card);
@@ -87,7 +87,7 @@ function processWritings(card) {
 
 var audio = new Audio();
 function playAudio(n) {
-	if(muted) return;
+	//if(muted) return;
 	if(n == currentWord.tsc.length) return;
 	//console.log(n);
 	

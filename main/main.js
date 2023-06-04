@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 let muted = false;
 
@@ -201,8 +201,8 @@ let toggleSound = function() {
 	}
 }
 
-let main = function () {
-	console.log("Document is ready!");
+const main = function () {
+	console.log('Document is ready!');
 	//$('.evaluation').hide();
 	//toCell(10,'O', 'go!');
 
