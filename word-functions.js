@@ -88,8 +88,8 @@ function processWritings(card) {
 var audio = new Audio();
 function playAudio(n) {
 	//if(muted) return;
-	if(n == currentWord.tsc.length) return;
-	//console.log(n);
+	if(n >= currentWord.tsc.length) return;
+	//console.log('pron v' + n);
 	
 	var src='http://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kana=';
 	src += currentWord.tsc[n] + '&kanji=' + writings.mainWritings[0];
@@ -101,6 +101,7 @@ function playAudio(n) {
 		if(duration > 5) {
 			console.log("duration: " + duration);
 			console.log("No good sound!");
+			console.log('pron v' + n);
 			playAudio(++n);
 		} else {
 			audio.play();
