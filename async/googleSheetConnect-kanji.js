@@ -1,4 +1,4 @@
-//const kanjiApp = 'https://script.google.com/macros/s/AKfycbyKW48irQn2p8iTaNdReTMyFU1_vQrlqABdvhmenoXpH7AeNeYK-u9KS9wfeDpJtgIR/exec';
+const kanjiApp = 'https://script.google.com/macros/s/AKfycbyKW48irQn2p8iTaNdReTMyFU1_vQrlqABdvhmenoXpH7AeNeYK-u9KS9wfeDpJtgIR/exec';
 
 function getKanjiDb () {
     var action = "getTasks";
@@ -14,7 +14,7 @@ function getKanjiDb () {
 			kanjiSheet = JSON.parse(xhr.response);
 			console.log(kanjiSheet.length);
 
-			startSession();
+			//startSession();
 			//nextCard();
         }
     };
