@@ -16,7 +16,7 @@ for(let i = 0; i < wordsDb.length; i++) {
     document.write('<br>');
 }*/
 
-for(let i = 0; i < wordsDb.length; i++) {
+/*for(let i = 0; i < wordsDb.length; i++) {
     //if(i > 99) break;
     //document.write( JSON.stringify(wordsDb[i].w) );
     //document.write( JSON.stringify(wordsDb[i].tsc) );
@@ -27,5 +27,24 @@ for(let i = 0; i < wordsDb.length; i++) {
     re = re.replace('"]','');
     re = re.replace(/","/g,', ');
     document.write( re );
+    document.write('<br>');
+}*/
+for(let i = 0; i < kanjiDb.length; i++) {
+    //if(i > 99) break;
+    //console.log(kanjiDb[i].k);
+    //console.log(kanjiDb[i]);
+
+    document.write(kanjiDb[i].s + '$');
+    document.write(kanjiDb[i].f + '$');
+    document.write(kanjiDb[i].b + '$');
+    document.write(kanjiDb[i].ff + '$');
+    document.write(kanjiDb[i].bb + '$');
+    document.write(kanjiDb[i].k + '$');
+    document.write(kanjiDb[i].n + '$');
+    document.write(kanjiDb[i].d.replace(/</g, "&lt;") + '$');
+    document.write(kanjiDb[i].r + '$');
+    document.write(kanjiDb[i].c + '$');
+    document.write(kanjiDb[i].j + '$');
+    document.write(kanjiDb[i].ky + '$');
     document.write('<br>');
 }
