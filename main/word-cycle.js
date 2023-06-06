@@ -129,13 +129,16 @@ function showQuestionWord() {
 
 function showFirstAnswer() {
 	progress = "FIRST_EVALUATION";
+	
+	$('.transcription').text(writings.kana);
+	if(!muted) playAudio(0);
+
 	if(direction === 'FORWARD') {
 		$('.evaluation').show();
 		$('.next').hide();
+	} else {
+		showAnswerWord();
 	}
-	//$('.transcription').text(currentWord.tsc);
-	$('.transcription').text(writings.kana);
-	if(!muted) playAudio(0);
 }
 
 let kanjiFromWord = [];

@@ -19,6 +19,8 @@ let progress = '';
 let direction = '';
 
 function sendRepeatStatus(sendNext) {
+	/*console.log('not saved!');
+	return;		*/
 	toCell(5, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
 	if(sendNext) toCell(7, 'Q', nextRepeated);
@@ -169,10 +171,10 @@ let pressedNext = function() {
 		case "WORD_QUESTION":
 			showFirstAnswer();
 			break;
-		case "FIRST_EVALUATION":
+		/*case "FIRST_EVALUATION":
 			//saveFirstResult();
 			showAnswerWord();
-			break;
+			break;*/
 		/*case "WORD_EVALUATION":
 			saveProgressWord();
 			break;*/
@@ -202,7 +204,7 @@ let toggleSound = function() {
 }
 
 const main = function () {
-	console.log('Document is ready!');
+	console.log('Version 0.7');
 	//$('.evaluation').hide();
 	//toCell(10,'O', 'go!');
 
