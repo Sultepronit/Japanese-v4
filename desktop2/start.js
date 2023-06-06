@@ -46,7 +46,7 @@ function prepareSessionLists() {
     nextCard();
 }
 
-function refactorDb(crudeDb) {
+function parseWordsDb(crudeDb) {
     sessionLength = crudeDb[10][16];
     maxToRepeat = crudeDb[12][16];
     nextRepeated = crudeDb[14][16];
@@ -77,9 +77,62 @@ function refactorDb(crudeDb) {
         //console.log(card);
         wordsDb.push(card);
     }
-	console.log(wordsDb);
+	//console.log(wordsDb);
     console.log(wordsDb.length);
-    prepareSessionLists();
+	dBcounter++;
+    //prepareSessionLists();
 }
 
-getWordsDb();
+function parseKselDb(crudeDb) {
+	//console.log(crudeDb);
+	for(let a of crudeDb) {
+		/*if(a[0] < ignored) {
+			wordsDb.push(null);
+			continue;
+		}*/
+
+        //console.log(a);
+		if(isNaN(a[0])) break;
+
+        let card = {
+			s: a[0],
+            f: a[1],
+            b: a[2],
+            ff: a[3],
+			bb: a[4],
+			k: a[5],
+			n: a[6],
+            d: a[7],
+			r: a[8],
+			c: a[9],
+			j: a[10],
+			ky: a[11]
+        };
+        //console.log(card);
+        kanjiDb.push(card);
+    }
+	//console.log(kanjiDb);
+    console.log(kanjiDb.length);
+	dBcounter++;
+}
+
+const wordsUrl = 'https://script.google.com/macros/s/AKfycbxdjsA65GpotgP1lTQ2hRcbt_JkxMnRWEo9K5wsrVKP-UfwxEiyoH_Lm4goQg9v-wxI/exec';
+const kselUrl = 'https://script.google.com/macros/s/AKfycbyTsUHyX3LteZXSXYuadFVGUEy95zEdnb6TKz6U7hwSznYQ_5plS71IPmJPZtWVsmVX/exec';
+
+let dBcounter = 0;
+function waitForDb() {
+	setTimeout(function(){
+		console.log('loading...');
+		if(dBcounter > 1) {
+			console.log('db loaded!');
+			prepareSessionLists();
+		} else {
+			waitForDb();
+		}
+	}, 300);
+}
+
+getData(wordsUrl, parseWordsDb);
+getData(kselUrl, parseKselDb);
+waitForDb();
+

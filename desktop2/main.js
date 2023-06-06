@@ -6,14 +6,19 @@ let sessionLength = 0, maxToRepeat = 0, nextRepeated = 0;
 let repeatList = [];
 const problemList = [];
 const recognizeList = [];
-const sessionList = [];
 
 let numberToRecognize = 0, numberWithProblem = 0, numberToRepeat = 0;
+
+const kanjiDb = [];
+
+const sessionList = [];
 
 let progress = '';
 let direction = '';
 
 function sendRepeatStatus(sendNext) {
+	console.log('not saved!');
+	return;
 	//toCell(12, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
 	if(sendNext) toCell(14, 'Q', nextRepeated);
@@ -23,8 +28,8 @@ function sendWordChanges() {
 	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff + " " + unchangedCard.bb);
 	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 	
-	/*console.log('not saved!');
-	return;*/
+	console.log('not saved!');
+	return;
 
 	if(currentWord.s < 0) {
 		currentWord.s = 0;
