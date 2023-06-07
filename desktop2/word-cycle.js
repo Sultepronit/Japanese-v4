@@ -116,8 +116,8 @@ function showQuestionWord() {
 	$(".word-panel").css("border", "6px solid white");
 	
 	//$('.card-info').append(currentWordId);
-	let info = '[' + currentWordId + '] ' + currentWord.s + ":\t";
-	info += currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb;
+	let info = currentWordId + ' (' + currentWord.a + ') [' + currentWord.s + ']:\t';
+	info += currentWord.f + ' ' + currentWord.b + ' | ' + currentWord.ff + ' ' + currentWord.bb;
 	$('.card-info').append(info);
 	
 	if(direction === "FORWARD") {

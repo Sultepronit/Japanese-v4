@@ -1,7 +1,10 @@
 'use strict';
 
+const wordsUrl = 'https://script.google.com/macros/s/AKfycbxdjsA65GpotgP1lTQ2hRcbt_JkxMnRWEo9K5wsrVKP-UfwxEiyoH_Lm4goQg9v-wxI/exec';
+const kselUrl = 'https://script.google.com/macros/s/AKfycbyTsUHyX3LteZXSXYuadFVGUEy95zEdnb6TKz6U7hwSznYQ_5plS71IPmJPZtWVsmVX/exec';
+
 const wordsDb = [];
-let sessionLength = 0, maxToRepeat = 0, nextRepeated = 0;
+let maxToRepeat = 0, nextRepeated = 0;
 
 let repeatList = [];
 const problemList = [];
@@ -10,46 +13,89 @@ const recognizeList = [];
 let numberToRecognize = 0, numberWithProblem = 0, numberToRepeat = 0;
 
 const kanjiDb = [];
+let maxToRepeatKanji = 0, nextRepeatedKanji = 0;
 
+const learnListKanji = [];
+const repeatListKanji = [];
+
+let numberToLearnKanji = 0, numbertoRepeatKanji = 0;
+
+let sessionLength = 0;
 const sessionList = [];
+
 
 let progress = '';
 let direction = '';
 
+function sendKanjiChanges(sendNext) {
+	console.log('b ' + kanjiStatsBefore.s + ':\t'
+		+ kanjiStatsBefore.f + ' ' + kanjiStatsBefore.b
+		+ ' | ' + kanjiStatsBefore.ff + ' ' + kanjiStatsBefore.bb + ' '
+		+ kanjiStatsBefore.max + '/' + kanjiStatsBefore.next);
+	console.log('a ' + currentKanji.s + ':\t'
+		+ currentKanji.f + ' ' + currentKanji.b
+		+ ' | ' + currentKanji.ff + ' ' + currentKanji.bb + ' '
+		+ maxToRepeatKanji + '/' + nextRepeatedKanji);
+	/*console.log('not saved!');
+	return;*/
+	if(currentKanji.s !== kanjiStatsBefore.s) {
+		toCell(kselUrl, currentKanjiId, 'A', currentKanji.s);
+	}
+	if(currentKanji.f !== kanjiStatsBefore.f) {
+		toCell(kselUrl, currentKanjiId, 'B', currentKanji.f);
+	}
+	if(currentKanji.b !== kanjiStatsBefore.b) {
+		toCell(kselUrl, currentKanjiId, 'C', currentKanji.b);
+	}
+
+	if(currentKanji.bb !== kanjiStatsBefore.bb) {
+		toCell(kselUrl, currentKanjiId, 'E', currentKanji.bb);
+	}
+
+	if(maxToRepeatKanji !== kanjiStatsBefore.max) {
+		toCell(kselUrl, 3, 'N', maxToRepeatKanji);
+	}
+	if(nextRepeatedKanji !== kanjiStatsBefore.next) {
+		toCell(kselUrl, 5, 'N', nextRepeatedKanji);
+	}
+
+	nextCard();
+}
+
 function sendRepeatStatus(sendNext) {
-	console.log('not saved!');
-	return;
+	/*console.log('not saved!');
+	return;*/
 	//toCell(12, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
-	if(sendNext) toCell(14, 'Q', nextRepeated);
+	if(sendNext) toCell(wordsUrl, 14, 'Q', nextRepeated);
 }
 
 function sendWordChanges() {
 	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff + " " + unchangedCard.bb);
 	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 	
-	console.log('not saved!');
-	return;
+	/*console.log('not saved!');
+	return;*/
 
 	if(currentWord.s < 0) {
 		currentWord.s = 0;
-		toCell(currentWordId, 'A', 0);
+		toCell(wordsUrl, currentWordId, 'A', 0);
 	}
 
 	if(currentWord.s !== unchangedCard.s) {
-		toCell(currentWordId, 'E', currentWord.s);
+		toCell(wordsUrl, currentWordId, 'E', currentWord.s);
 	} 
 	if(currentWord.f !== unchangedCard.f) {
-		toCell(currentWordId, 'F', currentWord.f);
+		toCell(wordsUrl, currentWordId, 'F', currentWord.f);
 	} 
 	if(currentWord.b !== unchangedCard.b) {
-		toCell(currentWordId, 'G', currentWord.b);
+		toCell(wordsUrl, currentWordId, 'G', currentWord.b);
 	} 
 	if(currentWord.ff !== unchangedCard.ff) {
-		toCell(currentWordId, 'H', currentWord.ff);
+		toCell(wordsUrl, currentWordId, 'H', currentWord.ff);
 	} 
 	if(currentWord.bb !== unchangedCard.bb) {
-		toCell(currentWordId, 'I', currentWord.bb);
+		toCell(wordsUrl, currentWordId, 'I', currentWord.bb);
 	} 
 }
 
@@ -217,7 +263,7 @@ function showStats() {
 	re += '<sup>' + wordRepeatedAuto + '</sup>-' + wordReturned + '</b>';
 	re+= ' | <span class="blue">[' + numberToRecognize + '] <b>';
 	re += wordSuperPlus + '-' + wordSuperMinus + '</b></span>';
-	/*
+	
 	re += ' || <span class="green">kl-' + numberToLearnKanji + ': ';
 	re += kanjiLearnPlus + '-' + kanjiLearnMinus;
 	re += '<b> ' + kanjiLearned + '</b></span>';
@@ -225,7 +271,7 @@ function showStats() {
 	re += '-' + kanjiRepeatMinus + '<b> ' + kanjiRepeated;
 	re += '<sup>' + kanjiRepeatedAuto + '</sup>-' + kanjiReturned + '</b>';
 	re += ' | <span class="blue"><b>' + kanjiSuperPlus + '-' + kanjiSuperMinus + '</b></span>';
-	*/
+	
 	$('.stats').append(re);
 }
 

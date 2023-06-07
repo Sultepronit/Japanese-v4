@@ -13,25 +13,13 @@ function getData (myApp, parseDb) {
         if (xhr.readyState == 4 && xhr.status == 200) {
 			let array = JSON.parse(xhr.response);
 			console.log(array.length);
-			//return array;
 			parseDb(array);
-			//refactorDb(wordsDb);
-			//console.log(wordsDb);
         }
     };
     try { xhr.send(); } catch (err) {console.log(err) }
 }
 
-/*function getWordsDb (parseDb) {
-	getData(wordsUrl, parseDb);
-}
-function getKselDb() {
-	console.log('Ksel!');
-	getData(kselUrl);
-}*/
-
-function toCell(num, col, newValue)
-{	
+function toCell(myApp, num, col, newValue) {	
 	num++;
 	console.log(col + num + ': ' + newValue);
 	let action = "toCell";

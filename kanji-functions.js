@@ -87,19 +87,6 @@ function findKanjiInWords(kanji) {
 	return wordList.concat(additionalWordList);
 }
 
-/*function formWordP(word, answer) {
-	if(word.add) {
-		let re = '<p class="additional">';
-	} else {
-		let re = '<p>';
-	}
-	if(answer) re += word.head;
-	re += word.tail;
-	re += '</p>';
-	
-	return re;
-}*/
-
 function showWordList(wordList, question) {
 	if(wordList.length < 2) {
 		//$('.single').append(formWordP(wordList[0], answer));

@@ -1,8 +1,64 @@
 'use strict';
 
-function prepareSessionLists() {	
+function prepareSessionList() {	
+
+    function fillTheList(n, item) {
+		for(let i = 0; i < n; i++) sessionList.push(item);
+	}
+	// kanji
+	numberToLearnKanji = learnListKanji.length;
+	fillTheList(numberToLearnKanji, "KANJI_LEARN");
+	
+	fillTheList(numbertoRepeatKanji, "KANJI_REPEAT");
+
+	// words
+	numberToRecognize = Math.round(recognizeList.length / 2);
+	fillTheList(numberToRecognize, 'RECOGNIZE');
+	
+	numberWithProblem = Math.round(problemList.length / 3);
+	fillTheList(numberWithProblem, "PROBLEM");
+	
+	numberToRepeat = sessionLength - sessionList.length;
+    fillTheList(numberToRepeat, "REPEAT");
+
+    console.log(sessionList);
+    //console.log(numberToRepeat);
+    nextCard();
+}
+
+function parseWordsDb(crudeDb) {
+	// numbers
+    sessionLength = crudeDb[10][16];
+    maxToRepeat = crudeDb[12][16];
+    nextRepeated = crudeDb[14][16];
+	let ignoredWords = crudeDb[5][16];
+	console.log(maxToRepeat + ' / ' + nextRepeated);
+
+	// db as array of objects
+    for(let a of crudeDb) {
+        //console.log(a);
+		if(isNaN(a[0])) break;
+        let card = {
+			a: a[0],
+            s: a[4],
+            f: a[5],
+            b: a[6],
+            ff: a[7],
+			bb: a[8],
+			w: a[9].split(', '),
+			tsc: a[10].split(', '),
+            tsl: a[11],
+            e: a[12]
+        };
+        //console.log(card);
+        wordsDb.push(card);
+    }
+	//console.log(wordsDb);
+    console.log(wordsDb.length);
+
+	// lists
 	for(let index = 0; index < wordsDb.length; index++) {
-		if(!wordsDb[index]) continue;
+		if(wordsDb[index].a < ignoredWords) continue;
 
 		if(wordsDb[index].s > maxToRepeat) {
 			if(wordsDb[index].ff <= 0) {
@@ -29,68 +85,20 @@ function prepareSessionLists() {
     console.log('repeat:');
     console.log(repeatList);
 
-    function fillTheList(n, item) {
-		for(let i = 0; i < n; i++) sessionList.push(item);
-	}
-	numberToRecognize = Math.round(recognizeList.length / 2);
-	fillTheList(numberToRecognize, 'RECOGNIZE');
-	
-	numberWithProblem = Math.round(problemList.length / 3);
-	fillTheList(numberWithProblem, "PROBLEM");
-	
-	numberToRepeat = sessionLength - sessionList.length;
-    fillTheList(numberToRepeat, "REPEAT");
-
-    console.log(sessionList);
-    //console.log(numberToRepeat);
-    nextCard();
-}
-
-function parseWordsDb(crudeDb) {
-    sessionLength = crudeDb[10][16];
-    maxToRepeat = crudeDb[12][16];
-    nextRepeated = crudeDb[14][16];
-	let ignored = crudeDb[5][16];
-	console.log(maxToRepeat + ' / ' + nextRepeated);
-
-	//let i = 0;
-    for(let a of crudeDb) {
-		if(a[0] < ignored) {
-			wordsDb.push(null);
-			continue;
-		}
-		//i++;
-        //console.log(a);
-		if(isNaN(a[0])) break;
-		//console.log(i + ': ' + a[0]);
-        let card = {
-            s: a[4],
-            f: a[5],
-            b: a[6],
-            ff: a[7],
-			bb: a[8],
-			w: a[9].split(', '),
-			tsc: a[10].split(', '),
-            tsl: a[11],
-            e: a[12]
-        };
-        //console.log(card);
-        wordsDb.push(card);
-    }
-	//console.log(wordsDb);
-    console.log(wordsDb.length);
+	// now, we ready to go 
+	//prepareSessionLists();
 	dBcounter++;
-    //prepareSessionLists();
 }
 
 function parseKselDb(crudeDb) {
-	//console.log(crudeDb);
-	for(let a of crudeDb) {
-		/*if(a[0] < ignored) {
-			wordsDb.push(null);
-			continue;
-		}*/
+	// numbers
+	numbertoRepeatKanji = crudeDb[1][13];
+    maxToRepeatKanji = crudeDb[3][13];
+    nextRepeatedKanji = crudeDb[5][13];
+	console.log(maxToRepeatKanji + ' / ' + nextRepeatedKanji);
 
+	// db as array of objects
+	for(let a of crudeDb) {
         //console.log(a);
 		if(isNaN(a[0])) break;
 
@@ -113,11 +121,28 @@ function parseKselDb(crudeDb) {
     }
 	//console.log(kanjiDb);
     console.log(kanjiDb.length);
+
+	// lists
+	for(let index = 0; index < kanjiDb.length; index++) {
+		if(kanjiDb[index].s > maxToRepeatKanji) continue;
+
+		if(kanjiDb[index].s > 0) {
+			repeatListKanji.push(index);
+			continue;
+		}
+		if(kanjiDb[index].s == 0) {
+			learnListKanji.push(index);
+			continue;
+		}
+	}
+	console.log('learn:');
+    console.log(learnListKanji);
+	console.log('repeat:');
+    console.log(repeatListKanji);
+
+	// now, we ready to go 
 	dBcounter++;
 }
-
-const wordsUrl = 'https://script.google.com/macros/s/AKfycbxdjsA65GpotgP1lTQ2hRcbt_JkxMnRWEo9K5wsrVKP-UfwxEiyoH_Lm4goQg9v-wxI/exec';
-const kselUrl = 'https://script.google.com/macros/s/AKfycbyTsUHyX3LteZXSXYuadFVGUEy95zEdnb6TKz6U7hwSznYQ_5plS71IPmJPZtWVsmVX/exec';
 
 let dBcounter = 0;
 function waitForDb() {
@@ -125,7 +150,7 @@ function waitForDb() {
 		console.log('loading...');
 		if(dBcounter > 1) {
 			console.log('db loaded!');
-			prepareSessionLists();
+			prepareSessionList();
 		} else {
 			waitForDb();
 		}
