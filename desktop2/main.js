@@ -28,14 +28,14 @@ let progress = '';
 let direction = '';
 
 function sendKanjiChanges(sendNext) {
-	console.log('b ' + kanjiStatsBefore.s + ':\t'
-		+ kanjiStatsBefore.f + ' ' + kanjiStatsBefore.b
-		+ ' | ' + kanjiStatsBefore.ff + ' ' + kanjiStatsBefore.bb + ' '
-		+ kanjiStatsBefore.max + '/' + kanjiStatsBefore.next);
-	console.log('a ' + currentKanji.s + ':\t'
-		+ currentKanji.f + ' ' + currentKanji.b
-		+ ' | ' + currentKanji.ff + ' ' + currentKanji.bb + ' '
-		+ maxToRepeatKanji + '/' + nextRepeatedKanji);
+	console.log('b ' + kanjiStatsBefore.s + ':\t' + 
+		kanjiStatsBefore.f + ' ' + kanjiStatsBefore.b +
+		' | ' + kanjiStatsBefore.ff + ' ' + kanjiStatsBefore.bb +
+		' '	+ kanjiStatsBefore.max + '/' + kanjiStatsBefore.next);
+	console.log('a ' + currentKanji.s + ':\t' +
+		currentKanji.f + ' ' + currentKanji.b +
+		' | ' + currentKanji.ff + ' ' + currentKanji.bb +
+		' '	+ maxToRepeatKanji + '/' + nextRepeatedKanji);
 	/*console.log('not saved!');
 	return;*/
 	if(currentKanji.s !== kanjiStatsBefore.s) {
@@ -97,6 +97,8 @@ function sendWordChanges() {
 	if(currentWord.bb !== unchangedCard.bb) {
 		toCell(wordsUrl, currentWordId, 'I', currentWord.bb);
 	} 
+
+	nextCard();
 }
 
 function pressedG() {
@@ -197,7 +199,8 @@ function pressedEnter() {
 			saveProgressKanji();
 			break;
 		case 'READY_TO_GO':
-			nextCard();
+			//nextCard();
+			sendWordChanges();
 			break;
 		case 'RECOGNITION':
 			showAnswerToRecognize();

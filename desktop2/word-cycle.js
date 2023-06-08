@@ -99,7 +99,7 @@ function showEverything() {
 	
 	progress = 'READY_TO_GO';
 	
-	sendWordChanges();
+	//sendWordChanges();
 }
 
 function showQuestionWord() {
@@ -279,5 +279,5 @@ function saveProgressWord() {
 	
 	sendWordChanges();
 	
-	nextCard();
+	//nextCard();
 }

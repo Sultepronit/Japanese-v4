@@ -2,7 +2,7 @@
 
 function processWritings(card) {
 	//console.log(card);
-	var result = {
+	let result = {
 		mainWritings: [],
 		allWritings: '',
 		allKanji: new Set(),
@@ -11,8 +11,8 @@ function processWritings(card) {
 		kana: ''
 	}
 	//console.log("get: " + card.w);
-	var writingsType = "normal";
-	for(var i = 0; i < card.w.length; i++) {
+	let writingsType = "normal";
+	for(let i = 0; i < card.w.length; i++) {
 		
 		if(card.w[i] == '[') {
 			writingsType = "rare";
@@ -27,9 +27,9 @@ function processWritings(card) {
 		}
 		
 		//if(writingsType != "shady") result.mainWritings.push(card.w[i]);
-		var mainWritting = ''; 
-		var throwAway = false;
-		for(var j = 0; j < card.w[i].length; j++) {
+		let mainWritting = ''; 
+		let throwAway = false;
+		for(let j = 0; j < card.w[i].length; j++) {
 			if(card.w[i][j] == '[') {
 				result.allWritings += "<span class='blue'>";
 				continue;
@@ -67,7 +67,7 @@ function processWritings(card) {
 	}
 	if(writingsType != "normal") result.allWritings += "</span>";
 	
-	for(var i = 0; i < card.tsc.length; i++) {
+	for(let i = 0; i < card.tsc.length; i++) {
 		result.kana += card.tsc[i];
 		if(i + 1 >= card.tsc.length) continue;
 		if(card.tsc[i] === '(') continue;
@@ -85,19 +85,19 @@ function processWritings(card) {
 }
 
 
-var audio = new Audio();
+let audio = new Audio();
 function playAudio(n) {
 	//if(muted) return;
 	if(n >= currentWord.tsc.length) return;
 	//console.log('pron v' + n);
 	
-	var src='http://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kana=';
+	let src='http://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kana=';
 	src += currentWord.tsc[n] + '&kanji=' + writings.mainWritings[0];
 	audio.src = src;
 	//console.log(src);
 	
 	audio.oncanplaythrough = function() {
-		var duration = audio.duration;
+		let duration = audio.duration;
 		if(duration > 5) {
 			console.log("duration: " + duration);
 			console.log("No good sound!");
@@ -126,19 +126,27 @@ function showWordListSingle(wordList) {
 	}
 }
 
-function showKanji(i) {
-	//$(".control").text(kanjiFromWord[i]);
-	console.log(kanjiFromWord[i]);
-	$('#k' + i).show();
-	
+function prepareWordList(i) {
 	clearList();
-	var wl = findKanjiInWords(kanjiFromWord[i]);
-	for(var j = 0; j < wl.length; j++) {
+	let wl = findKanjiInWords(kanjiFromWord[i]);
+	for(let j = 0; j < wl.length; j++) {
 		if(wl[j].index == currentWordId) {
 			wl.splice(j,1)
 			break;
 		}
 	}
+	return wl;
+}
 
+function showKanji(i) {
+	console.log(kanjiFromWord[i]);
+	$('#k' + i).show();
+	let wl = prepareWordList(i);
 	if(wl.length) showWordListSingle(wl);
+}
+
+function wordListToWord(i) {
+	$(".control").text(kanjiFromWord[i]);
+	let wl = prepareWordList(i);
+	if(wl.length) showWordList(wl);
 }
