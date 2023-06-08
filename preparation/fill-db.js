@@ -16,20 +16,21 @@ for(let i = 0; i < wordsDb.length; i++) {
     document.write('<br>');
 }*/
 
-/*for(let i = 0; i < wordsDb.length; i++) {
+for(let i = 0; i < wordsDb.length; i++) {
     //if(i > 99) break;
     //document.write( JSON.stringify(wordsDb[i].w) );
     //document.write( JSON.stringify(wordsDb[i].tsc) );
     
     //let json = JSON.stringify(wordsDb[i].w);
-    let json = JSON.stringify(wordsDb[i].tsc);
+    /*let json = JSON.stringify(wordsDb[i].tsc);
     let re = json.replace('["','');
     re = re.replace('"]','');
     re = re.replace(/","/g,', ');
-    document.write( re );
+    document.write( re );*/
+    document.write(wordsDb[i].tsl.replace(/</g, "&lt;"));
     document.write('<br>');
-}*/
-for(let i = 0; i < kanjiDb.length; i++) {
+}
+/*for(let i = 0; i < kanjiDb.length; i++) {
     //if(i > 99) break;
     //console.log(kanjiDb[i].k);
     //console.log(kanjiDb[i]);
@@ -47,4 +48,4 @@ for(let i = 0; i < kanjiDb.length; i++) {
     document.write(kanjiDb[i].j + '$');
     document.write(kanjiDb[i].ky + '$');
     document.write('<br>');
-}
+}*/
