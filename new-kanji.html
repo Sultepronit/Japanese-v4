@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html >
+<html>
+<head>
+	<title>New kanji!</title>
+	<meta charset="utf-8" />
+	
+	<script src="desktop2/googleSheetConnect.js"></script>
+
+	<script src="common-functions.js"></script>
+	<script src="word-functions.js"></script>
+	<script src="wanakana.js"></script>
+
+	<script src="jsdb/jooyoo.js"></script>
+	<script src="jsdb/jinmeiyou.js"></script>
+	<script src="jsdb/key.js"></script>
+
+</head>
+
+<body>
+
+<script type="text/javascript">
+let jlpt =  "勿尤只叩叱此伊吊吠忽於或其茹殆剃咳垢這紐壷蛋惚梢喧稀揃貰覗筈壺碗溜馳嘩蒔鞄嘘噌賑撫蝶噂噛嬉撒髭濡霞醤蘇";
+const wordsDb = [];
+
+let knownKanji = new Set();
+let unknownKanji = new Map();
+
+function printSection(kanji, card) {
+	//document.write('{"s":0,"f":0,"b":0,"ff":0,"bb":0,"k":"');
+	document.write(kanji);
+	document.write('; -; ');
+	document.write(card.d);
+	document.write('; ');
+	document.write(card.r);
+	document.write('; ');
+	document.write(card.c);
+	//if(card.c > 9) document.write('!!!');
+	document.write('; ');
+	document.write(card.j);
+	document.write('; ');
+	document.write(card.ky);
+	document.write('; ');
+	document.write('<b>');
+	document.write(card.words);
+	document.write('</b><br>');
+}
+
+function print() {
+	// jooyoo, several words
+	document.write('<div contenteditable>');
+	for(let kanji of unknownKanji.keys()) {
+		let card = unknownKanji.get(kanji);
+		if(card.j > 0 && card.n > 1) {
+			printSection(kanji, card);
+			//unknownKanji.delete(kanji);
+		}
+	}
+	document.write('</div>');
+	
+	// jooyoo, one word
+	document.write('<div contenteditable>');
+	for(let kanji of unknownKanji.keys()) {
+		let card = unknownKanji.get(kanji);
+		if(card.j > 0) {
+			printSection(kanji, card);
+			unknownKanji.delete(kanji);
+		}
+	}
+	document.write('</div>');
+	
+	// others
+	document.write('<div contenteditable>');
+	for(let kanji of unknownKanji.keys()) {
+		let card = unknownKanji.get(kanji);
+		if(card.n > 1) {
+			printSection(kanji, card);
+			unknownKanji.delete(kanji);
+		}
+	}
+	document.write('</div>');
+	
+	for(let kanji of unknownKanji.keys()) {
+		document.write(kanji);
+	}
+	
+}
+
+function findKey(keySymbol) {
+	//console.log(keySymbol);
+	let r = 0;
+	loop1:for(; r < key.length; r++) {
+		if(keySymbol == key[r][0][0]) break;
+		if(key[r][0].length > 1) {
+			//console.log(key[r][0]);
+			for(let y = 1; y < key[r][0].length; y++) {
+				if(keySymbol == key[r][0][y]) { 
+					break loop1;
+				}
+			}
+		}
+	}
+	//console.log(r);
+	return r;
+}
+
+function checkJooyoo() {
+	for(let kanji of unknownKanji.keys()) {
+		//console.log(kanji);
+		let card = unknownKanji.get(kanji);
+		for(let i = 1; i < jooyoo.length; i++) {
+			if(kanji == jooyoo[i][0]) {
+				//console.log('Joy!');
+				//let card = unknownKanji.get(kanji);
+				card.j = i;
+				card.r = jooyoo[i][3];
+				card.c = jooyoo[i][5];
+				card.ky = findKey(jooyoo[i][2]);
+				card.d = key[ card.ky ][4];
+				//console.log(card);
+				break;
+			}
+		}
+		if(card.j == 0) {
+			//console.log(card);
+			for(let jmk of jinMeiYou) {
+				if(kanji == jmk) {
+					card.c = '人名';
+				}
+			}
+			for(let jk of jlpt) {
+				if(kanji == jk) {
+					card.c = (card.c == '?') ? 'jlpt' : card.c + '-jlpt';
+				}
+			}
+		}
+	}
+	
+	print();
+}
+
+function getNew() {
+	wordsDb.forEach((word) => {
+		//console.log(word.w);
+		let fromOne = processWritings(word).mainKanji;
+		//console.log(fromOne);
+		
+		for(let kanji of fromOne) {
+			//console.log(kanji);
+			if(!knownKanji.has(kanji)) {
+				if(unknownKanji.has(kanji)) { // next words
+					let card = unknownKanji.get(kanji);
+					card.words += ' | ' + word.w + ' : ' + word.tsc;
+					card.n++;
+					//console.log(card);
+					unknownKanji.set(kanji, card);
+				} else { // frist word
+					document.write(kanji);
+					let card = {
+						words: (word.w + ' : ' + word.tsc),
+						n: 1,
+						d: '?',
+						r: '?',
+						c: '?',
+						j: 0,
+						ky: '?'
+					};
+					//unknownKanji.set(kanji, [word.w + ' : ' + word.tsc]);
+					unknownKanji.set(kanji, card);
+				}
+			}
+		}
+		
+	});
+	console.log(unknownKanji);
+	checkJooyoo();
+}
+
+function parseWordsDb(crudeDb) {
+    for(let a of crudeDb) {
+        //console.log(a);
+		if(isNaN(a[0])) break;
+        let card = {
+			/*a: a[0],
+            s: a[4],
+            f: a[5],
+            b: a[6],
+            ff: a[7],
+			bb: a[8],*/
+			w: a[9].split(', '),
+			tsc: a[10].split(', '),
+            /*tsl: a[11],
+            e: a[12]*/
+        };
+        //console.log(card);
+        wordsDb.push(card);
+    }
+	console.log(wordsDb);
+    console.log(wordsDb.length);
+
+	dBcounter++;
+}
+
+function parseKselDb(crudeDb) {
+	for(let a of crudeDb) {
+		if(isNaN(a[0])) break;
+		knownKanji.add(a[5]);
+    }
+	console.log(knownKanji);
+
+	dBcounter++;
+}
+
+let dBcounter = 0;
+function waitForDb() {
+	setTimeout(function(){
+		console.log('loading...');
+		if(dBcounter > 1) {
+			console.log('db loaded!');
+			//getKnown();
+			getNew();
+		} else {
+			waitForDb();
+		}
+	}, 300);
+}
+
+getData(wordsUrl, parseWordsDb);
+getData(kselUrl, parseKselDb);
+waitForDb();
+
+</script>
+<!--<p class="super">super</p>-->
+</body>
+</html>
