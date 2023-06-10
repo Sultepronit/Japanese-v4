@@ -188,6 +188,9 @@ function implementEvaluation() {
 	let change = 0;
 	if(kanjiMark === 'GOOD' || kanjiMark === 'BEST') {
 		change++;
+		if(kanjiStatus === 'KANJI_LEARN' && kanjiMark === 'BEST') {
+			change++;
+		}
 		if(kanjiStatus == 'KANJI_LEARN') kanjiLearnPlus++; else kanjiRepeatPlus++;
 	} else { // BAD
 		change--;
@@ -253,15 +256,7 @@ function implementEvaluation() {
 function saveProgressKanji() {
 	if(kanjiMark === 'UNEVALUATED') return;
 
-	//kanjiStatsBefore
-	//console.log("b " + currentKanji.s + ":\t" + currentKanji.f + " " + currentKanji.b + " | " + currentKanji.ff + " " + currentKanji.bb);
-	
 	implementEvaluation();
-	
-	//console.log("a " + currentKanji.s + ":\t" + currentKanji.f + " " + currentKanji.b + " | " + currentKanji.ff + " " + currentKanji.bb);
-	
+
 	sendKanjiChanges();
-	//sendCommonKanjiChanges();
-	
-	//nextCard();
 }
