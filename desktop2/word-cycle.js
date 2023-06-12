@@ -13,7 +13,7 @@ let wordRepeatPlusAuto = 0, wordRepeatedAuto = 0;
 let wordReturned = 0;
 let wordSuperPlus = 0, wordSuperMinus = 0;
 
-let unchangedCard = {};
+let wordInputStats = {};
 
 function nextWord() {
 	$('.kanji-panel').hide();
@@ -43,7 +43,12 @@ function nextWord() {
 	
 	writings = processWritings(currentWord);
 
-	unchangedCard = Object.assign({}, currentWord);
+	//wordInputStats = Object.assign({}, currentWord);
+	wordInputStats = {
+		...currentWord,
+		max: maxToRepeat,
+		next: nextRepeated
+	}
 
 	if(currentWord.f > currentWord.b) {
 		direction = 'BACKWARD';
@@ -259,7 +264,6 @@ function saveProgressWord() {
 			wordReturned++;
 			
 			//maxToRepeat++;
-			//sendRepeatStatus();
 			break upgradeOrDegrade;
 		}
 		
@@ -271,8 +275,6 @@ function saveProgressWord() {
 			wordRepeated++;
 			
 			//maxToRepeat++;
-			sendRepeatStatus(true);
-			
 			break upgradeOrDegrade;
 		}
 	}

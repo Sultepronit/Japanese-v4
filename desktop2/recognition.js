@@ -10,6 +10,12 @@ function nextRecognition() {
 	console.log(currentWord);
 	
 	writings = processWritings(currentWord);
+
+	wordInputStats = {
+		...currentWord,
+		max: maxToRepeat,
+		next: nextRepeated
+	}
 	
 	wordMark = 'UNEVALUATED';
 	

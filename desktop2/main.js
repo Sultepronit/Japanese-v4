@@ -27,54 +27,54 @@ const sessionList = [];
 let progress = '';
 let direction = '';
 
-function sendKanjiChanges(sendNext) {
-	console.log('b ' + kanjiStatsBefore.s + ':\t' + 
-		kanjiStatsBefore.f + ' ' + kanjiStatsBefore.b +
-		' | ' + kanjiStatsBefore.ff + ' ' + kanjiStatsBefore.bb +
-		' '	+ kanjiStatsBefore.max + '/' + kanjiStatsBefore.next);
+function sendKanjiChanges() {
+	console.log('b ' + kanjiInputStats.s + ':\t' + 
+		kanjiInputStats.f + ' ' + kanjiInputStats.b +
+		' | ' + kanjiInputStats.ff + ' ' + kanjiInputStats.bb);
 	console.log('a ' + currentKanji.s + ':\t' +
 		currentKanji.f + ' ' + currentKanji.b +
-		' | ' + currentKanji.ff + ' ' + currentKanji.bb +
-		' '	+ maxToRepeatKanji + '/' + nextRepeatedKanji);
+		' | ' + currentKanji.ff + ' ' + currentKanji.bb);
 	/*console.log('not saved!');
+	nextCard();
 	return;*/
-	if(currentKanji.s !== kanjiStatsBefore.s) {
+	if(currentKanji.s !== kanjiInputStats.s) {
 		toCell(kselUrl, currentKanjiId, 'A', currentKanji.s);
 	}
-	if(currentKanji.f !== kanjiStatsBefore.f) {
+	if(currentKanji.f !== kanjiInputStats.f) {
 		toCell(kselUrl, currentKanjiId, 'B', currentKanji.f);
 	}
-	if(currentKanji.b !== kanjiStatsBefore.b) {
+	if(currentKanji.b !== kanjiInputStats.b) {
 		toCell(kselUrl, currentKanjiId, 'C', currentKanji.b);
 	}
 
-	if(currentKanji.bb !== kanjiStatsBefore.bb) {
+	if(currentKanji.bb !== kanjiInputStats.bb) {
 		toCell(kselUrl, currentKanjiId, 'E', currentKanji.bb);
 	}
 
-	if(maxToRepeatKanji !== kanjiStatsBefore.max) {
+	if(maxToRepeatKanji !== kanjiInputStats.max) {
 		toCell(kselUrl, 3, 'N', maxToRepeatKanji);
 	}
-	if(nextRepeatedKanji !== kanjiStatsBefore.next) {
+	if(nextRepeatedKanji !== kanjiInputStats.next) {
 		toCell(kselUrl, 5, 'N', nextRepeatedKanji);
 	}
 
 	nextCard();
 }
 
-function sendRepeatStatus(sendNext) {
-	/*console.log('not saved!');
-	return;*/
+/*function sendRepeatStatus(sendNext) {
+	console.log('not saved!');
+	return;
 	//toCell(12, 'Q', maxToRepeat);
 	console.log('sendNext? ' + sendNext);
 	if(sendNext) toCell(wordsUrl, 14, 'Q', nextRepeated);
-}
+}*/
 
 function sendWordChanges() {
-	console.log("b " + unchangedCard.s + ":\t" + unchangedCard.f + " " + unchangedCard.b + " | " + unchangedCard.ff + " " + unchangedCard.bb);
+	console.log("b " + wordInputStats.s + ":\t" + wordInputStats.f + " " + wordInputStats.b + " | " + wordInputStats.ff + " " + wordInputStats.bb);
 	console.log("a " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
-	
+	console.log(wordInputStats);
 	/*console.log('not saved!');
+	nextCard();
 	return;*/
 
 	if(currentWord.s < 0) {
@@ -82,21 +82,28 @@ function sendWordChanges() {
 		toCell(wordsUrl, currentWordId, 'A', 0);
 	}
 
-	if(currentWord.s !== unchangedCard.s) {
+	if(currentWord.s !== wordInputStats.s) {
 		toCell(wordsUrl, currentWordId, 'E', currentWord.s);
 	} 
-	if(currentWord.f !== unchangedCard.f) {
+	if(currentWord.f !== wordInputStats.f) {
 		toCell(wordsUrl, currentWordId, 'F', currentWord.f);
 	} 
-	if(currentWord.b !== unchangedCard.b) {
+	if(currentWord.b !== wordInputStats.b) {
 		toCell(wordsUrl, currentWordId, 'G', currentWord.b);
 	} 
-	if(currentWord.ff !== unchangedCard.ff) {
+	if(currentWord.ff !== wordInputStats.ff) {
 		toCell(wordsUrl, currentWordId, 'H', currentWord.ff);
 	} 
-	if(currentWord.bb !== unchangedCard.bb) {
+	if(currentWord.bb !== wordInputStats.bb) {
 		toCell(wordsUrl, currentWordId, 'I', currentWord.bb);
 	} 
+
+	if(maxToRepeat !== wordInputStats.max) {
+		toCell(wordsUrl, 12, 'Q', maxToRepeat);
+	}
+	if(nextRepeated !== wordInputStats.next) {
+		toCell(wordsUrl, 14, 'Q', nextRepeated);
+	}
 
 	nextCard();
 }

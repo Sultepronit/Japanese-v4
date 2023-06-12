@@ -14,7 +14,7 @@ let kanjiRepeatPlusAuto = 0, kanjiRepeatedAuto = 0;
 let kanjiReturned = 0;
 let kanjiSuperPlus = 0, kanjiSuperMinus = 0;
 
-const kanjiStatsBefore = {};
+let kanjiInputStats = {};
 
 function nextKanji() {
 	$('.kanji-panel').show();
@@ -37,13 +37,19 @@ function nextKanji() {
 	currentKanji = kanjiDb[currentKanjiId];
 	console.log(currentKanji);
 
-	kanjiStatsBefore.s = currentKanji.s;
-	kanjiStatsBefore.f = currentKanji.f;
-	kanjiStatsBefore.b = currentKanji.b;
-	kanjiStatsBefore.ff = currentKanji.ff;
-	kanjiStatsBefore.bb = currentKanji.bb;
-	kanjiStatsBefore.max = maxToRepeatKanji;
-	kanjiStatsBefore.next = nextRepeatedKanji;
+	/*kanjiInputStats.s = currentKanji.s;
+	kanjiInputStats.f = currentKanji.f;
+	kanjiInputStats.b = currentKanji.b;
+	kanjiInputStats.ff = currentKanji.ff;
+	kanjiInputStats.bb = currentKanji.bb;
+	kanjiInputStats.max = maxToRepeatKanji;
+	kanjiInputStats.next = nextRepeatedKanji;*/
+
+	kanjiInputStats = {
+		...currentKanji,
+		max: maxToRepeatKanji,
+		next: nextRepeatedKanji
+	}
 	
 	direction = "BACKWARD";
 	if(kanjiStatus === "KANJI_LEARN" && currentKanji.f <= currentKanji.b) {
