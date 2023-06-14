@@ -63,9 +63,9 @@ function parseWordsDb(crudeDb) {
 		if(wordsDb[index].a < ignoredWords) continue;
 
 		if(wordsDb[index].s > maxToRepeat) {
-			if(wordsDb[index].ff <= 0) {
+			/*if(wordsDb[index].ff <= 0) {
 				recognizeList.push(index);
-			}
+			}*/
 			continue;
 		}
 
