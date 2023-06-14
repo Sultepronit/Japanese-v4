@@ -18,9 +18,10 @@ function prepareSessionList() {
 	numberWithProblem = Math.round(problemList.length / 3);
 	fillTheList(numberWithProblem, "PROBLEM");
 	
-	numberToRepeat = sessionLength - sessionList.length;
+	//numberToRepeat = sessionLength - sessionList.length;
     fillTheList(numberToRepeat, "REPEAT");
 
+	sessionLength = sessionList.length;
     console.log(sessionList);
     //console.log(numberToRepeat);
     nextCard();
@@ -28,7 +29,8 @@ function prepareSessionList() {
 
 function parseWordsDb(crudeDb) {
 	// numbers
-    sessionLength = crudeDb[10][16];
+    //sessionLength = crudeDb[10][16];
+	numberToRepeat = crudeDb[10][16];
     maxToRepeat = crudeDb[12][16];
     nextRepeated = crudeDb[14][16];
 	let ignoredWords = crudeDb[5][16];
