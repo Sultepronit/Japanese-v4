@@ -1,9 +1,17 @@
-"use strict";
+'use strict';
 
 function sendDownGif(resource, code, kanji) {
 	let message = 'gg?re=' + resource + '&code=' + code + '&kanji=' + kanji;
-	console.log(message);
-	contactServer(message);
+	//console.log(message);
+	//contactServer(message);
+	let src = 'http://localhost:5050/' + message;
+	console.log(src);
+	$.getScript(src, function(){
+		//console.log("Success!");
+	}).fail(function () {
+		alert("No connection!");
+		//console.log("No connection!");
+	});
 }
 
 function getGif(kanji) {
