@@ -50,11 +50,10 @@ function nextWord() {
 		next: nextRepeated
 	}
 
-	if(currentWord.f > currentWord.b) {
+	/*if(currentWord.f > currentWord.b) {
 		direction = 'BACKWARD';
 		if(currentWord.bb > 2.1 && currentWord.s > 2) {
 			console.log('Word To PASS! [B]');
-			//console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 			
 			currentWord.f = 0;
 			currentWord.b = 0;
@@ -73,7 +72,6 @@ function nextWord() {
 		direction = 'FORWARD';
 		if(currentWord.ff > 2.1) {
 			console.log('Word To PASS! [F]');
-			//console.log("b " + currentWord.s + ":\t" + currentWord.f + " " + currentWord.b + " | " + currentWord.ff + " " + currentWord.bb);
 			
 			currentWord.f++;
 			
@@ -84,8 +82,8 @@ function nextWord() {
 			showEverything();
 			return;
 		}
-	}
-	//direction = 'BACKWARD';
+	}*/
+	direction = 'BACKWARD';
 
 	wordFirstMark = 'UNEVALUATED';
 	wordMark = 'UNEVALUATED';
@@ -268,7 +266,8 @@ function saveProgressWord() {
 		}
 		
 		//upgrade 
-		if(currentWord.f > 0 && currentWord.b > 0) {
+		//if(currentWord.f > 0 && currentWord.b > 0) {
+		if(currentWord.b > 0) {
 			currentWord.f = 0;
 			currentWord.b = 0;
 			currentWord.s = nextRepeated++;
