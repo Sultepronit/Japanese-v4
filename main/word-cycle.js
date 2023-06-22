@@ -82,12 +82,14 @@ function nextWord() {
 	if(currentWord.ff <= 0 && currentWord.s < 2) direction = 'FORWARD';
 	
 	showQuestionWord();
+	//showEverything();
 }
 
 function showEverything() {
 	sessionList.push('REPEAT');
 	
-	direction = 'BACKWARD';
+	//direction = 'BACKWARD';
+	direction = 'FORWARD';
 	showQuestionWord();
 	showFirstAnswer();
 	showAnswerWord();
