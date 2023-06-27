@@ -1,0 +1,105 @@
+p {
+	font-size: 2em;
+	margin: 0.1em;
+}
+
+header {
+	position: fixed;
+	top: 0;
+	width: 97%;
+	background-color: white;
+}
+
+.card-info {
+	float: right;
+}
+
+.stats {
+	float: left;
+}
+
+main {
+	/*position: fixed;*/
+	/*overflow: auto;
+	margin-bottom: 10em;*/
+}
+
+.kanji {
+	font-size: 7em;
+	text-align: center;
+	margin: 0.1em;
+	clear: both;
+}
+
+.word-list {
+	overflow: auto;
+	margin-top: 14em;
+	margin-bottom: 12em;
+}
+
+.word-list p {
+	font-size: 2.5em;
+	border: 2px solid blue;
+	margin: 1%;
+	padding: 5px;
+}
+
+.additional {
+	/*border: 2px solid red;*/
+	background-color: #ffe1e1;
+}
+
+footer {
+	/*position: sticky;*/
+	position: fixed;
+	bottom: 0;
+	width: 99%;
+	/*margin-top: 20em;*/
+	padding-top: 1em;
+	padding-bottom: 2em;
+	background-color: white;
+}
+
+footer button {
+	height: 9em;
+	margin: 1%;
+}
+
+.show {
+	width: 96%;
+	/*display: block;
+	margin: auto;*/
+}
+
+.evaluation button {
+	width: 22%;
+}
+
+.best {
+	background-color: blue;
+}
+
+.good {
+	background-color: green;
+}
+
+.bad {
+	background-color: red;
+}
+
+.gray {
+	color: gray;
+}
+
+.blue {
+	color: blue;
+}
+
+.green {
+	color: green;
+}
+
+.yellow {
+	color: yellow;
+}
+
