@@ -14,6 +14,10 @@ let showed = 0, withProblem = 0;
 let plus = 0, minus = 0;
 let repeated = 0, autoRepeated = 0;
 
+function sendToCell(column, row0, value) {
+	sendData('kanji', [[`${column}${row0 + 1}`, value]]);
+}
+
 function showAnswer() {
 	$('.evaluation').show();
 	$('.show').hide();

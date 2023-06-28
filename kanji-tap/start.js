@@ -44,16 +44,14 @@ function mergeDb(ksel) {
 		// if there are new kanji
 		if(i >= kanjiSheet.length) { 
 			kanjiSheet.push([kanjiList[i].kanji, 0, 0, 0]);
-			//toCell(i + 1, 'A', kanjiList[i].kanji);
-            sendToCell(kanjiUrl, i, 'A', kanjiList[i].kanji);
+			sendToCell('A', i, kanjiList[i].kanji);
 		}
 		
 		// if kanji order changed
 		if(kanjiList[i].kanji != kanjiSheet[i][0]) { 
 			if(kanjiSheet[i][0] == '') {
 				kanjiSheet[i][0] = kanjiList[i].kanji;
-				//toCell(i + 1, 'A', kanjiList[i].kanji);
-                sendToCell(kanjiUrl, i, 'A', kanjiList[i].kanji);
+				sendToCell('A', i, kanjiList[i].kanji);
 			} else {
 				console.log(kanjiList[i].kanji + ':' + kanjiSheet[i][0]);
 				document.write(kanjiList[i].kanji + ': (' + kanjiSheet[i][0] + ') ');

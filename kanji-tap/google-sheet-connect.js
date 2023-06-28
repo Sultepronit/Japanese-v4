@@ -6,7 +6,7 @@ async function getData(sheet, firstCol, lastCol) {
 		const resp = await fetch(url);
 		const array = await resp.json();
 		console.log(sheet + ': ' + array.length);
-		console.log(array);
+		//console.log(array);
 		return array;
 	} catch(err) {
 		//alert(err);
@@ -15,42 +15,16 @@ async function getData(sheet, firstCol, lastCol) {
 }
 //getData('db', 'G', 'G');
 
-async function getData0(urlBase, parseDb) {
-    const url = urlBase + '?action=getTasks';
-	const resp = await fetch(url);
-	const array = await resp.json();
-	console.log(array.length);
-	//parseDb(array);
-	return array;
-}
-
-async function sendToCell(urlBase, num, col, value) {
-	num++;
-	const url = `${urlBase}?num=${num}&col=${col}&newValue=${value}&action=toCelll`;
-	const parameters = {
-		method: 'POST',
-		headers: { Accept: 'application/x-www-form-urlencoded' }
-	}
-
-	try {
-		const response = await fetch(url, parameters);
-		console.log(response);
-	} catch(err) {
-		//console.log(err);
-	}
-}
-//sendToCell(kanjiUrl, 1, 'Z', 'Hello!');
-
-async function sendToCell2(urlBase, num, col, value) {
+async function sendData(sheet, data) {
 	console.log('saving...');
-	const array = [['Z3','!'], ['Z4','?']];
-	const sheet = 'ksel';
+	//const data = [['Z3','!'], ['Z4','?']];
+	//const sheet = 'ksel';
 	const url = `${urlBase}?sheet=${sheet}`;
 	const parameters = {
 		method: 'POST',
 		//headers: { Accept: 'application/x-www-form-urlencoded' },
 		headers: { Accept: 'application/json' },
-		body: JSON.stringify(array)
+		body: JSON.stringify(data)
 	}
 
 	try {
@@ -64,8 +38,6 @@ async function sendToCell2(urlBase, num, col, value) {
 			console.log(val[i]);
 		}
 	} catch(err) {
-		//console.log(err);
+		console.log(err);
 	}
 }
-const kanji5 = 'https://script.google.com/macros/s/AKfycbzO9pUq8lXb-7b1RIVbfMDCmv-tS3OuVqeua0GorqUqNEzFrB-WfQSSlrbMQ5EtEtsB/exec';
-//sendToCell2(kanji5, 0, 'Z', 'Hello!');
