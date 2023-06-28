@@ -1,21 +1,22 @@
-const urlBase = 'https://script.google.com/macros/s/AKfycbxN69cAIaZWHrrhjHKrs5XO5ZlXpAd63F0rpFqM503OYYqIwC-8jWg2mq_sB1Vn_sSjAw/exec';
+const kanjiUrl = 'https://script.google.com/macros/s/AKfycbyKW48irQn2p8iTaNdReTMyFU1_vQrlqABdvhmenoXpH7AeNeYK-u9KS9wfeDpJtgIR/exec';
+const wordsUrl = 'https://script.google.com/macros/s/AKfycbxdjsA65GpotgP1lTQ2hRcbt_JkxMnRWEo9K5wsrVKP-UfwxEiyoH_Lm4goQg9v-wxI/exec';
+const kselUrl = 'https://script.google.com/macros/s/AKfycbyTsUHyX3LteZXSXYuadFVGUEy95zEdnb6TKz6U7hwSznYQ_5plS71IPmJPZtWVsmVX/exec';
 
-async function getData(sheet, firstCol, lastCol) {
-    const url = `${urlBase}?sheet=${sheet}&firstCol=${firstCol}&lastCol=${lastCol}`;
-	try {
-		const resp = await fetch(url);
-		const array = await resp.json();
-		console.log(sheet + ': ' + array.length);
-		console.log(array);
-		return array;
-	} catch(err) {
-		//alert(err);
-		console.log(err);
-	}
+const kanji2 = 'https://script.google.com/macros/s/AKfycbw9x8_yWpYy-oL8D4WyJE01kNyxLIh2JZ5glOlCK_WTwVGJuXH3yoEynYv6EYT7xLIq9g/exec';
+
+async function getData2(urlBase) {
+    const url = urlBase;
+	const resp = await fetch(url);
+	const array = await resp.json();
+	console.log('Here we go: ' + array.length);
+	console.log(array);
+	//parseDb(array);
+	//return array;
 }
-//getData('db', 'G', 'G');
+getData2(kanji2);
+//getData2(kanjiUrl);
 
-async function getData0(urlBase, parseDb) {
+async function getData(urlBase, parseDb) {
     const url = urlBase + '?action=getTasks';
 	const resp = await fetch(url);
 	const array = await resp.json();
@@ -68,4 +69,5 @@ async function sendToCell2(urlBase, num, col, value) {
 	}
 }
 const kanji5 = 'https://script.google.com/macros/s/AKfycbzO9pUq8lXb-7b1RIVbfMDCmv-tS3OuVqeua0GorqUqNEzFrB-WfQSSlrbMQ5EtEtsB/exec';
-//sendToCell2(kanji5, 0, 'Z', 'Hello!');
+sendToCell2(kanji5, 0, 'Z', 'Hello!');
+sendToCell2(kanji2, 0, 'Z', 'Hello!');

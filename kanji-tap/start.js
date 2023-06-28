@@ -63,11 +63,11 @@ function mergeDb(ksel) {
 		// find kanji indices
 		kanjiSheet[i][4] = -1;
 		for(let j = 0; j <= ksel.length; j++) {
-            if(j === ksel.lengh || isNaN(ksel[j][0])) {
+            if(j === ksel.lengh || !ksel[j][0]) {
                 orphan++;
                 break;
             }
-			if(ksel[j][5] == kanjiSheet[i][0]) {
+			if(ksel[j][0] == kanjiSheet[i][0]) {
 				kanjiSheet[i][4] = j;
 				break;
 			}
@@ -96,39 +96,45 @@ function getKanjiFromWords() {
         }
     }
     //console.log(kanjiList);
+
+	const wordsProcessed = new Promise(res => {
+		res('words are processed');
+	});
+	return wordsProcessed;
 }
 
 function parseWordsDb(crudeDb) {
     for(let a of crudeDb) {
-		if(isNaN(a[0])) break;
+		//if(isNaN(a[0])) break;
+		if(!(a[0] && a[1] && a[2]))  break;
         let card = {
-			w: a[9].split(', '),
-			tsc: a[10].split(', '),
-            tsl: a[11],
+			w: a[0].split(', '),
+			tsc: a[1].split(', '),
+            tsl: a[2],
         };
         wordsDb.push(card);
     }
-    console.log(wordsDb.length);
-    getKanjiFromWords();
+    console.log('words: ' + wordsDb.length);
+
+    return getKanjiFromWords();
 }
 
 
 function getAllDb() {
-    const kanjiPromise = getData(kanjiUrl);
-    const wordsPromise  = getData(wordsUrl);
-    const kselPromise = getData(kselUrl);
+    const kanjiPromise = getData('kanji', 'A', 'F');
+    const wordsPromise  = getData('jap', 'J', 'L');
+    const kselPromise = getData('ksel', 'F', 'F');
     
     Promise.all([kanjiPromise, wordsPromise, kselPromise]).then( values => {
         //console.log(values);
         kanjiSheet = values[0];
         //console.log(kanjiSheet);
+		const ksel = values[2];
 
-        parseWordsDb(values[1]);
-
-        const ksel = values[2];
-        console.log('ksel: ' + ksel.length);
-
-        mergeDb(ksel);
+        parseWordsDb(values[1]).then( value => {
+			console.log(value);
+			mergeDb(ksel);
+		});
     });
    
     
