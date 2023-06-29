@@ -37,24 +37,24 @@ function prepareSession() {
 	nextCard();
 }
 
-function mergeDb(ksel) {
+function mergeDb(ksel, kanjiList) {
 	let orphan = 0;
 	for(let i = 0; i < kanjiList.length; i++) {
 		
 		// if there are new kanji
 		if(i >= kanjiSheet.length) { 
-			kanjiSheet.push([kanjiList[i].kanji, 0, 0, 0]);
-			sendToCell('A', i, kanjiList[i].kanji);
+			kanjiSheet.push([kanjiList[i], 0, 0, 0]);
+			sendToCell('A', i, kanjiList[i]);
 		}
 		
 		// if kanji order changed
-		if(kanjiList[i].kanji != kanjiSheet[i][0]) { 
+		if(kanjiList[i] != kanjiSheet[i][0]) { 
 			if(kanjiSheet[i][0] == '') {
-				kanjiSheet[i][0] = kanjiList[i].kanji;
-				sendToCell('A', i, kanjiList[i].kanji);
+				kanjiSheet[i][0] = kanjiList[i];
+				sendToCell('A', i, kanjiList[i]);
 			} else {
-				console.log(kanjiList[i].kanji + ':' + kanjiSheet[i][0]);
-				document.write(kanjiList[i].kanji + ': (' + kanjiSheet[i][0] + ') ');
+				console.log(kanjiList[i] + ':' + kanjiSheet[i][0]);
+				document.write(kanjiList[i] + ': (' + kanjiSheet[i][0] + ') ');
 			}	
 		}
 		
@@ -80,6 +80,7 @@ function mergeDb(ksel) {
 
 function getKanjiFromWords() {
     const kanjiSet = new Set();
+	const kanjiList = [];
     
     for(let word of wordsDb) {
         //console.log(word);
@@ -89,16 +90,16 @@ function getKanjiFromWords() {
             if(kanjiSet.has(kanji)) continue;
             
             kanjiSet.add(kanji);
-            const card = {kanji: kanji, index: 0};
-            kanjiList.push(card);
+			kanjiList.push(kanji);
         }
     }
-    //console.log(kanjiList);
+    console.log(kanjiList);
 
 	const wordsProcessed = new Promise(res => {
-		res('words are processed');
+		res(kanjiList);
 	});
 	return wordsProcessed;
+	//return kanjiList;
 }
 
 function parseWordsDb(crudeDb) {
@@ -129,9 +130,8 @@ function getAllDb() {
         //console.log(kanjiSheet);
 		const ksel = values[2];
 
-        parseWordsDb(values[1]).then( value => {
-			console.log(value);
-			mergeDb(ksel);
+        parseWordsDb(values[1]).then( kanjiList => {
+			mergeDb(ksel, kanjiList);
 		});
     });
    

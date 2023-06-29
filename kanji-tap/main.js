@@ -1,6 +1,6 @@
 let kanjiSheet = [];
 let wordsDb = [];
-let kanjiList = [];
+//let kanjiList = [];
 let maxToRepeat = 0, nextRepeated = 0;
 const kanjiToRepeat = [];
 const kanjiWithMistakes = [];
