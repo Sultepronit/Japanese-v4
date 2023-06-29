@@ -23,6 +23,8 @@ function sendChanges(changes) {
 	const re = [];
 	const row = changes.id + 1;
 
+	console.log('not saved');
+
 	if('progress' in changes) {
 		re.push([`B${row}`, changes.progress]);
 	}
@@ -139,6 +141,7 @@ function nextCard() {
 			withProblem++;
 		} else { // REPEAT
 			currentCardId = deleteRandomFromArray(kanjiToRepeat);
+			localStorage.setItem('kanjiToRepeat', JSON.stringify(kanjiToRepeat));
 		}
 		currentCard = kanjiSheet[currentCardId];
 		console.log(currentCard);

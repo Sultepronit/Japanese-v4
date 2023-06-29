@@ -120,6 +120,17 @@ function parseWordsDb(crudeDb) {
 
 
 function getAllDb() {
+	const saved = localStorage.getItem('kanjiToRepeat');
+	console.log(saved);
+	const nothing = localStorage.getItem('nothing');
+	console.log(nothing);
+	if(saved) {
+		document.querySelector('.kanji').textContent = 'restoring...';
+	}
+	
+
+
+
     const kanjiPromise = getData('kanji', 'A', 'F');
     const wordsPromise  = getData('jap', 'J', 'L');
     const kselPromise = getData('ksel', 'F', 'F');
