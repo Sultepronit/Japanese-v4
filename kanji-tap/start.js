@@ -1,6 +1,7 @@
 'use strict';
 
 function prepareSession() {
+	localStorage.setItem('kanjiSheet', JSON.stringify(kanjiSheet));
 	var superKanji = 0;
 	maxToRepeat = kanjiSheet[5][5];
 	nextRepeated = kanjiSheet[1][5]

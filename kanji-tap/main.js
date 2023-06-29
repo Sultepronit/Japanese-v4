@@ -23,7 +23,8 @@ function sendChanges(changes) {
 	const re = [];
 	const row = changes.id + 1;
 
-	console.log('not saved');
+	/*console.log('not saved');
+	return;*/
 
 	if('progress' in changes) {
 		re.push([`B${row}`, changes.progress]);
