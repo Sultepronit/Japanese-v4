@@ -2,17 +2,21 @@ let kanjiSheet = [];
 let wordsDb = [];
 //let kanjiList = [];
 let maxToRepeat = 0, nextRepeated = 0;
-const kanjiToRepeat = [];
-const kanjiWithMistakes = [];
-const sessionList = [];
+let kanjiToRepeat = [];
+let kanjiWithMistakes = [];
+let sessionList = [];
 
 let currentCardId = 0;
 let currentCard;
 let cardStatus = '';
 
-let showed = 0, withProblem = 0;
+//let showed = 0, withProblem = 0;
 let plus = 0, minus = 0;
 let repeated = 0, autoRepeated = 0;
+let progress = {
+	showed: 0,
+	withProblem: 0
+};
 
 function sendToCell(column, row0, value) {
 	sendData('kanji', [[`${column}${row0 + 1}`, value]]);
@@ -23,8 +27,8 @@ function sendChanges(changes) {
 	const re = [];
 	const row = changes.id + 1;
 
-	/*console.log('not saved');
-	return;*/
+	console.log('not saved');
+	return;
 
 	if('progress' in changes) {
 		re.push([`B${row}`, changes.progress]);
@@ -103,6 +107,7 @@ function showAnswer() {
 }
 
 function showQuestion() {
+	progress.showed++;
 	$('.evaluation').hide();
 	$('.show').show();
 	
@@ -117,7 +122,7 @@ function showQuestion() {
 	info += currentCard[1] + '/' + currentCard[3];
 	$('.card-info').append(info);*/
 	
-	var stats = showed + '<i> ' + withProblem + '</i> ';
+	var stats = progress.showed + '<i> ' + progress.withProblem + '</i> ';
 	stats += plus + '-' + minus;
 	stats += '<b> ' + repeated + '<sup>' + autoRepeated + '</sup></b>';
 	$('.stats').append(stats);
@@ -125,23 +130,21 @@ function showQuestion() {
 
 function nextCard() {
 	console.log('next!');
-	
+	localStorage.setItem('nextRepeated', nextRepeated);
+	localStorage.setItem('progress', JSON.stringify(progress));
+	localStorage.setItem('sessionList', JSON.stringify(sessionList));
+
 	cardStatus = deleteRandomFromArray(sessionList);
 	console.log(sessionList);
 	console.log(cardStatus);
 	
 	while(true) {
-		/*if(cardStatus === 'REPEAT') {
-			currentCardId = deleteRandomFromArray(kanjiToRepeat);
-		} else { // PROBLEM
-			currentCardId = deleteRandomFromArray(kanjiWithMistakes);
-			withProblem++;
-		}*/
 		if(cardStatus === "PROBLEM") {
 			currentCardId = deleteRandomFromArray(kanjiWithMistakes);
-			withProblem++;
+			localStorage.setItem('kanjiWithMistakes', JSON.stringify(kanjiWithMistakes));
+			progress.withProblem++;
 		} else { // REPEAT
-			currentCardId = deleteRandomFromArray(kanjiToRepeat);
+			currentCardId = deleteRandomFromArray(kanjiToRepeat);	
 			localStorage.setItem('kanjiToRepeat', JSON.stringify(kanjiToRepeat));
 		}
 		currentCard = kanjiSheet[currentCardId];
@@ -158,9 +161,7 @@ function nextCard() {
 		
 		break;
 	}
-	showed++;
 	
-	//$('.kanji').append(currentCard[0]);
 	showQuestion();
 }
 

@@ -2,6 +2,7 @@
 
 function prepareSession() {
 	localStorage.setItem('kanjiSheet', JSON.stringify(kanjiSheet));
+	localStorage.setItem('wordsDb', JSON.stringify(wordsDb));
 	var superKanji = 0;
 	maxToRepeat = kanjiSheet[5][5];
 	nextRepeated = kanjiSheet[1][5]
@@ -25,6 +26,8 @@ function prepareSession() {
 	console.log(superKanji + ': ' + prc + '%');
 	console.log(kanjiWithMistakes);
 	console.log(kanjiToRepeat);
+	localStorage.setItem('kanjiToRepeat', JSON.stringify(kanjiToRepeat));
+	localStorage.setItem('kanjiWithMistakes', JSON.stringify(kanjiWithMistakes));
 	
 	var numberWithMistakes = Math.round(kanjiWithMistakes.length / 2);
 	//console.log(numberWithMistakes);
@@ -121,17 +124,14 @@ function parseWordsDb(crudeDb) {
 
 
 function getAllDb() {
-	const saved = localStorage.getItem('kanjiToRepeat');
+	/*const saved = localStorage.getItem('kanjiToRepeat');
 	console.log(saved);
 	const nothing = localStorage.getItem('nothing');
 	console.log(nothing);
 	if(saved) {
 		document.querySelector('.kanji').textContent = 'restoring...';
-	}
+	}*/
 	
-
-
-
     const kanjiPromise = getData('kanji', 'A', 'F');
     const wordsPromise  = getData('jap', 'J', 'L');
     const kselPromise = getData('ksel', 'F', 'F');
@@ -149,6 +149,30 @@ function getAllDb() {
    
     
 }
-getAllDb();
+//getAllDb();
 
+function restoreSession() {
+	let json = localStorage.getItem('sessionList');
+	const sl = JSON.parse(json);
+	console.log(sl);
+	if(json && sl.length > 0) { // there is saved session
+		sessionList = sl;
+		json = localStorage.getItem('kanjiSheet');
+		kanjiSheet = JSON.parse(json);
+		json = localStorage.getItem('wordsDb');
+		wordsDb = JSON.parse(json);
+		json = localStorage.getItem('kanjiToRepeat');
+		kanjiToRepeat = JSON.parse(json);
+		json = localStorage.getItem('kanjiWithMistakes');
+		kanjiWithMistakes = JSON.parse(json);
+		json = localStorage.getItem('progress');
+		progress = JSON.parse(json);
+		nextRepeated = localStorage.getItem('nextRepeated');
+		nextCard();
+	} else { // start new one
+		getAllDb();
+	}
+}
+//localStorage.clear();
+restoreSession();
 
