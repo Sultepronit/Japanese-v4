@@ -1,4 +1,4 @@
-const urlBase = 'https://script.google.com/macros/s/AKfycbxN69cAIaZWHrrhjHKrs5XO5ZlXpAd63F0rpFqM503OYYqIwC-8jWg2mq_sB1Vn_sSjAw/exec';
+const urlBase = 'https://script.google.com/macros/s/AKfycbxSifZzh0G8Y95_mSfnLsErqS8RUrx73IgJmQvl1Oq81e08p_YeSKDrvoWo_MvljP0sBw/exec';
 
 async function getData(sheet, firstCol, lastCol) {
     const url = `${urlBase}?sheet=${sheet}&firstCol=${firstCol}&lastCol=${lastCol}`;
@@ -31,12 +31,16 @@ async function sendData(sheet, data) {
 		const resp = await fetch(url, parameters);
 		//console.log(resp);
 		const val = await resp.json();
-		//console.log(array);
 		//const val = await resp.text();
-		//console.log(val);
-		for(let i = 0; i < val.length; i++) {
-			console.log(val[i]);
+		if('length' in val) { // expected response
+			for(let i = 0; i < val.length; i++) {
+				console.log(val[i]);
+			}
+		} else { // error on server
+			console.log(val);
+			alert('Error on server!');
 		}
+		
 	} catch(err) {
 		console.log(err);
 	}
