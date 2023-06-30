@@ -124,24 +124,13 @@ function parseWordsDb(crudeDb) {
 
 
 function getAllDb() {
-	/*const saved = localStorage.getItem('kanjiToRepeat');
-	console.log(saved);
-	const nothing = localStorage.getItem('nothing');
-	console.log(nothing);
-	if(saved) {
-		document.querySelector('.kanji').textContent = 'restoring...';
-	}*/
-	
     const kanjiPromise = getData('kanji', 'A', 'F');
     const wordsPromise  = getData('jap', 'J', 'L');
     const kselPromise = getData('ksel', 'F', 'F');
     
     Promise.all([kanjiPromise, wordsPromise, kselPromise]).then( values => {
-        //console.log(values);
         kanjiSheet = values[0];
-        //console.log(kanjiSheet);
 		const ksel = values[2];
-
         parseWordsDb(values[1]).then( kanjiList => {
 			mergeDb(ksel, kanjiList);
 		});
@@ -154,7 +143,7 @@ function getAllDb() {
 function restoreSession() {
 	let json = localStorage.getItem('sessionList');
 	const sl = JSON.parse(json);
-	console.log(sl);
+	//console.log(sl);
 	if(json && sl.length > 0) { // there is saved session
 		sessionList = sl;
 		json = localStorage.getItem('kanjiSheet');
@@ -168,6 +157,9 @@ function restoreSession() {
 		json = localStorage.getItem('progress');
 		progress = JSON.parse(json);
 		nextRepeated = localStorage.getItem('nextRepeated');
+
+		$('.reset').show();
+		resetButtonIsHidden = false;
 		nextCard();
 	} else { // start new one
 		getAllDb();
